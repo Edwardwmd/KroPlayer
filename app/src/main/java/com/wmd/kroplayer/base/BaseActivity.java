@@ -1,13 +1,15 @@
 package com.wmd.kroplayer.base;
 
+import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
+
 import android.view.InflateException;
+import android.view.Window;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LifecycleObserver;
-import androidx.lifecycle.LifecycleRegistry;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 
 import com.trello.rxlifecycle3.components.support.RxAppCompatActivity;
@@ -34,6 +36,10 @@ public abstract class BaseActivity<P extends Ipresenter> extends RxAppCompatActi
       @Override
       protected void onCreate(@Nullable Bundle savedInstanceState) {
 
+            getWindow().requestFeature(Window.FEATURE_NO_TITLE);//去掉标题
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                  getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+            }
             super.onCreate(savedInstanceState);
             try {
                   int layoutRes = initView(savedInstanceState);
@@ -63,4 +69,11 @@ public abstract class BaseActivity<P extends Ipresenter> extends RxAppCompatActi
             if (mUnbinder != null && mUnbinder != Unbinder.EMPTY)
                   mUnbinder.unbind();
       }
+
+      protected void addFragmentToActivity(FragmentManager fragmentManager, Fragment fragment, int frameId) {
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.add(frameId, fragment);
+            transaction.commit();
+      }
+
 }

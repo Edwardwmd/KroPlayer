@@ -1,6 +1,6 @@
 package com.wmd.kroplayer.di.compontent;
 
-import com.wmd.kroplayer.mvp.ui.LauncherActivity;
+import com.wmd.kroplayer.mvp.ui.activity.LauncherActivity;
 import com.wmd.kroplayer.di.module.LauncherModule;
 import com.wmd.kroplayer.di.scope.ActivityScope;
 import com.wmd.kroplayer.mvp.contract.LauncherContract;

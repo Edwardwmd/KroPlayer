@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/tab_mainvideo">
+    <!-- app:startDestination是设置默认开启所在的fragmentId上-->
+    <fragment
+        android:id="@+id/tab_mainvideo"
+        android:name="com.wmd.kroplayer.mvp.ui.fragment.MainVideoFragment"
+        android:label="@string/text_mainvideo"
+        tools:layout="@layout/fragment_main_video" />
+
+    <fragment
+        android:id="@+id/tab_videolist"
+        android:name="com.wmd.kroplayer.mvp.ui.fragment.VideoListFragment"
+        android:label="@string/text_videolist"
+        tools:layout="@layout/fragment_video_list" />
+
+    <fragment
+        android:id="@+id/tab_setting"
+        android:name="com.wmd.kroplayer.mvp.ui.fragment.SettingFragment"
+        android:label="@string/text_setting"
+        tools:layout="@layout/fragment_setting" />
+</navigation>

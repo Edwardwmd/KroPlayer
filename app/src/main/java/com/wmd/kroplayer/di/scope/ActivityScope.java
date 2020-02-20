@@ -11,7 +11,7 @@ import javax.inject.Scope;
  * Link:    https://github.com/Edwardwmd
  * Data:    2020/2/1620
  * Version: 1.0.0
- * Desc:
+ * Desc:    ActivityScope
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Scope

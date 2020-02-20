@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/tab_mainvideo"
+        android:icon="@drawable/ic_video_default"
+        android:title="@string/text_mainvideo"
+        app:tooltipText="@null" />
+
+    <item
+        android:id="@+id/tab_videolist"
+        android:icon="@drawable/ic_videolist_default"
+        android:title="@string/text_videolist"
+        app:tooltipText="@null" />
+
+    <item
+        android:id="@+id/tab_setting"
+        android:icon="@drawable/ic_setting_default"
+        android:title="@string/text_setting"
+        app:tooltipText="@null" />
+
+</menu>

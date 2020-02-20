@@ -7,8 +7,6 @@ import com.orhanobut.logger.Logger;
 import com.wmd.kroplayer.di.compontent.AppComponent;
 import com.wmd.kroplayer.di.compontent.DaggerAppComponent;
 
-import javax.inject.Inject;
-import javax.inject.Named;
 
 /**
  * Author:  Edwardwmd
@@ -27,7 +25,6 @@ public class App extends Application {
 
             super.onCreate();
             instance = this;
-
             if (mAppComponent == null) {
                   mAppComponent = DaggerAppComponent
                           .builder()
@@ -35,6 +32,7 @@ public class App extends Application {
                           .build();
             }
             mAppComponent.inject(instance);
+            //初始化Logger
             Logger.addLogAdapter(new AndroidLogAdapter());
       }
 

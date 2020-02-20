@@ -1,10 +1,12 @@
-package com.wmd.kroplayer.mvp.ui;
-
-import androidx.annotation.Nullable;
+package com.wmd.kroplayer.mvp.ui.activity;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+
+import androidx.annotation.Nullable;
 
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.wmd.kroplayer.App;
@@ -14,18 +16,26 @@ import com.wmd.kroplayer.di.compontent.DaggerLauncherComponent;
 import com.wmd.kroplayer.mvp.contract.LauncherContract;
 import com.wmd.kroplayer.mvp.presenter.LauncherPresenter;
 
+import butterknife.BindView;
+
 public class LauncherActivity extends BaseActivity<LauncherPresenter> implements LauncherContract.View {
 
+
+      @BindView(R.id.iv_logo)
+      ImageView ivLogo;
+      @BindView(R.id.ll_logo)
+      LinearLayout llLogo;
 
       @Override
       public int initView(@Nullable Bundle savedInstanceState) {
 
             return R.layout.activity_launcher;
+
       }
 
       @Override
       public void initData(@Nullable Bundle savedInstanceState) {
-
+//            setupWindowAnimations();
       }
 
 
@@ -41,6 +51,7 @@ public class LauncherActivity extends BaseActivity<LauncherPresenter> implements
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
             finish();
+            overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
       }
 
       @Override
@@ -75,4 +86,5 @@ public class LauncherActivity extends BaseActivity<LauncherPresenter> implements
       public void showMessage(String message) {
 
       }
+
 }

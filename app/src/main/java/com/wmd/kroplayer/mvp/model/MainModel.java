@@ -1,18 +1,15 @@
 package com.wmd.kroplayer.mvp.model;
 
 import com.wmd.kroplayer.base.BaseModel;
-import com.wmd.kroplayer.base.BaseView;
-import com.wmd.kroplayer.mvp.contract.LauncherContract;
+import com.wmd.kroplayer.mvp.contract.MainContract;
 
 /**
  * Author:  Edwardwmd
  * E-mail:  1732141816wmd @ gmail.com
  * Link:    https://github.com/Edwardwmd
- * Data:    2020/2/1712
+ * Data:    2020/2/1812
  * Version: 1.0.0
  * Desc:
  */
-public class LauncherModel extends BaseModel implements LauncherContract.Model {
-
-
+public class MainModel extends BaseModel implements MainContract.Model {
 }

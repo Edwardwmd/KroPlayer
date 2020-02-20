@@ -21,7 +21,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".mvp.ui.LauncherActivity"
+            android:name=".mvp.ui.activity.LauncherActivity"
             android:configChanges="keyboardHidden|screenLayout|orientation"
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
@@ -32,7 +32,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".mvp.ui.MainActivity"
+            android:name=".mvp.ui.activity.MainActivity"
             android:configChanges="keyboardHidden|screenLayout|orientation"
             android:launchMode="singleTask" />
     </application>

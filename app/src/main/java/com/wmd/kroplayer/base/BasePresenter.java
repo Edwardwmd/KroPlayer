@@ -70,7 +70,7 @@ public class BasePresenter<M extends IModel, V extends BaseView> implements Ipre
 
       }
 
-      void addCompositeDisposable(Disposable disposable) {
+      protected void addCompositeDisposable(Disposable disposable) {
 
             if (mCompositeDisposable == null) {
                   mCompositeDisposable = new CompositeDisposable();

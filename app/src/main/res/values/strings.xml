@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">KroPlayer</string>
     <string name="kroplayer">KroPlayer</string>
+    <string name="text_mainvideo">主页</string>
+    <string name="text_videolist">文件</string>
+    <string name="text_setting">设置</string>
 </resources>

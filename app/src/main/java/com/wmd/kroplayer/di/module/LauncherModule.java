@@ -1,5 +1,11 @@
 package com.wmd.kroplayer.di.module;
 
+import android.os.Build;
+import android.transition.TransitionSet;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.FragmentActivity;
 
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -26,4 +32,5 @@ public class LauncherModule {
 
             return new RxPermissions((FragmentActivity) view.getActivity());
       }
+
 }

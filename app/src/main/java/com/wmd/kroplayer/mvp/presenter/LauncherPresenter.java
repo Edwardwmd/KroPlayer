@@ -12,9 +12,14 @@ import com.wmd.kroplayer.base.BasePresenter;
 import com.wmd.kroplayer.di.scope.ActivityScope;
 import com.wmd.kroplayer.mvp.contract.LauncherContract;
 
+import java.util.concurrent.TimeUnit;
+
 import javax.inject.Inject;
 
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Author:  Edwardwmd
@@ -26,14 +31,11 @@ import io.reactivex.functions.Consumer;
  */
 @ActivityScope
 public class LauncherPresenter extends BasePresenter<LauncherContract.Model, LauncherContract.View> {
-      private LauncherContract.View mView;
-      private boolean isFirst = true;
 
       @Inject
       public LauncherPresenter(LauncherContract.View mView) {
 
             super(mView);
-            this.mView = mView;
       }
 
       @SuppressLint("CheckResult")
@@ -45,24 +47,16 @@ public class LauncherPresenter extends BasePresenter<LauncherContract.Model, Lau
                           Manifest.permission.WRITE_EXTERNAL_STORAGE,
                           Manifest.permission.READ_PHONE_STATE,
                           Manifest.permission.INTERNET)
-                          .subscribe(new Consumer<Boolean>() {
-                                @Override
-                                public void accept(Boolean aBoolean) throws Exception {
+                          .subscribe(aBoolean -> {
 
-                                      if (aBoolean) {
-                                            //申请的权限全部允许
-                                            if (isFirst) {
-                                                  Toast.makeText(mView.getActivity(), "权限允许成功!", Toast.LENGTH_SHORT).show();
-                                                  mView.turnToMain();
-                                                  isFirst = false;
-                                            } else {
-                                                  mView.turnToMain();
-                                            }
-
-                                      } else {
-                                            //只要有一个权限被拒绝，就会执行
-                                            Toast.makeText(mView.getActivity(), "未授权,请移步授权!", Toast.LENGTH_SHORT).show();
-                                      }
+                                if (aBoolean) {
+                                      //申请的权限全部允许
+                                      jumpToMainByTimer();
+                                } else {
+                                      //只要有一个权限被拒绝，就会执行
+                                      Toast.makeText(mView.getActivity(), "请前往授权,否则部分软件功能无法使用哦!~", Toast.LENGTH_SHORT).show();
+                                      //申请的权限全部允许
+                                      jumpToMainByTimer();
                                 }
                           });
             }
@@ -70,10 +64,18 @@ public class LauncherPresenter extends BasePresenter<LauncherContract.Model, Lau
 
       }
 
+      private void jumpToMainByTimer() {
+
+            addCompositeDisposable(Observable.timer(1500, TimeUnit.MILLISECONDS)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(aLong -> mView.turnToMain()));
+
+      }
+
       @Override
       public void onDestory() {
 
-            mView = null;
             Logger.d("LauncherPresenter--->onDestory---销毁成功!");
       }
 }
