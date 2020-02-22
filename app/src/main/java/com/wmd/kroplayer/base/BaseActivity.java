@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import android.view.InflateException;
 import android.view.Window;
+import android.view.WindowManager;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -36,9 +37,9 @@ public abstract class BaseActivity<P extends Ipresenter> extends RxAppCompatActi
       @Override
       protected void onCreate(@Nullable Bundle savedInstanceState) {
 
-            getWindow().requestFeature(Window.FEATURE_NO_TITLE);//去掉标题
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                  getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                  getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
+                          WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             }
             super.onCreate(savedInstanceState);
             try {
@@ -46,6 +47,7 @@ public abstract class BaseActivity<P extends Ipresenter> extends RxAppCompatActi
                   if (layoutRes != 0) {
                         setContentView(layoutRes);
                         mUnbinder = ButterKnife.bind(this);
+
                   }
 
             } catch (Exception e) {
@@ -71,6 +73,7 @@ public abstract class BaseActivity<P extends Ipresenter> extends RxAppCompatActi
       }
 
       protected void addFragmentToActivity(FragmentManager fragmentManager, Fragment fragment, int frameId) {
+
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.add(frameId, fragment);
             transaction.commit();

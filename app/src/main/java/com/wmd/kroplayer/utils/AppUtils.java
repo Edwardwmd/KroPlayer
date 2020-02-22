@@ -1,22 +1,29 @@
 package com.wmd.kroplayer.utils;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.media.ThumbnailUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.TooltipCompat;
 
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomnavigation.LabelVisibilityMode;
+import com.google.android.material.snackbar.Snackbar;
 import com.orhanobut.logger.Logger;
 import com.wmd.kroplayer.App;
 
 import java.lang.reflect.Field;
+
+import io.reactivex.Completable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Action;
 
 /**
  * Author:  Edwardwmd
@@ -51,7 +58,7 @@ public class AppUtils {
       /**
        * 解决BottomNavigationView大于3个item时的位移
        *
-       * @param view
+       * @param view BottomNavigationView
        */
       @SuppressLint("RestrictedApi")
       public static void disableShiftMode(BottomNavigationView view) {
@@ -61,18 +68,36 @@ public class AppUtils {
                   menuView.setLabelVisibilityMode(LabelVisibilityMode.LABEL_VISIBILITY_LABELED);
                   for (int i = 0; i < menuView.getChildCount(); i++) {
                         BottomNavigationItemView item = (BottomNavigationItemView) menuView.getChildAt(i);
-
                         item.setShifting(false);
-
-                        item.setChecked(false);
                   }
             } catch (Exception e) {
                   Logger.e("AppUstiks------->disableShiftMode", "Unable to get shift mode field", e);
             }
       }
 
+      /**
+       * 弹出Toast
+       *
+       * @param message 消息
+       */
       public static void showToast(CharSequence message) {
 
             Toast.makeText(App.instance, message, Toast.LENGTH_SHORT).show();
+      }
+
+      /**
+       *
+       * @param activity
+       * @param message
+       * @param isLong
+       */
+      public static void showSnackbar(Activity activity, String message, boolean isLong) {
+
+            Completable.fromAction(() -> {
+                  View view = activity.getWindow().getDecorView().findViewById(android.R.id.content);
+                  Snackbar.make(view, message, isLong ? Snackbar.LENGTH_LONG : Snackbar.LENGTH_SHORT).show();
+
+            }).subscribeOn(AndroidSchedulers.mainThread()).subscribe();
+
       }
 }

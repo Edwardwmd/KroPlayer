@@ -4,11 +4,21 @@ import android.os.Bundle;
 import android.view.View;
 
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.wmd.kroplayer.App;
 import com.wmd.kroplayer.R;
-import com.wmd.kroplayer.base.BaseActivity;
+import com.wmd.kroplayer.app.AppDataManager;
 import com.wmd.kroplayer.base.BaseFragment;
+import com.wmd.kroplayer.di.component.DaggerMainVideoComponent;
+import com.wmd.kroplayer.mvp.contract.MainVideoContract;
+import com.wmd.kroplayer.mvp.presenter.MainVideoPresenter;
+import com.wmd.kroplayer.utils.AppUtils;
+
+import javax.inject.Inject;
+
+import butterknife.BindView;
 
 /**
  * Author:  Edwardwmd
@@ -16,22 +26,16 @@ import com.wmd.kroplayer.base.BaseFragment;
  * Link:    https://github.com/Edwardwmd
  * Data:    2020/2/2012
  * Version: 1.0.0
- * Desc:
+ * Desc:    MainVideoFragment
  */
-public class MainVideoFragment extends BaseFragment {
+public class MainVideoFragment extends BaseFragment<MainVideoPresenter> implements MainVideoContract.View {
 
-      public static MainVideoFragment newInstance() {
-
-            MainVideoFragment mainVideoFragment = null;
-            Bundle bundle = new Bundle();
-            synchronized (MainVideoFragment.class) {
-                  if (mainVideoFragment == null) {
-                        mainVideoFragment = new MainVideoFragment();
-                        mainVideoFragment.setArguments(bundle);
-                  }
-            }
-            return mainVideoFragment;
-      }
+      @Inject
+      AppDataManager manager;
+      @BindView(R.id.rcv_video)
+      RecyclerView rcvVideo;
+      @BindView(R.id.swipeLayout)
+      SwipeRefreshLayout swipeLayout;
 
       @Override
       public int initLayoutRes() {
@@ -42,5 +46,42 @@ public class MainVideoFragment extends BaseFragment {
       @Override
       public void initData(View mView, @Nullable Bundle savedInstanceState) {
 
+            AppUtils.showSnackbar(getActivity(), manager.getLocalAllVideo().toString(), false);
+
+
+      }
+
+
+      @Override
+      public void showLoading() {
+
+      }
+
+      @Override
+      public void hideLoading() {
+
+      }
+
+      @Override
+      public void showMessage(String message) {
+
+      }
+
+      @Override
+      protected void initFragmentComponent() {
+
+            DaggerMainVideoComponent
+                    .builder()
+                    .appComponent(App.getAppComponent())
+                    .view(this)
+                    .build()
+                    .inject(this);
+      }
+
+      @Override
+      public void onDestroy() {
+
+            super.onDestroy();
+            manager = null;
       }
 }

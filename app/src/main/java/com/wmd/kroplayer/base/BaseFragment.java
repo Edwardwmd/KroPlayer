@@ -26,12 +26,11 @@ import butterknife.Unbinder;
  * Link:    https://github.com/Edwardwmd
  * Data:    2020/2/1619
  * Version: 1.0.0
- * Desc:    BaseActivity
+ * Desc:    BaseFragment
  */
 
 public abstract class BaseFragment<P extends Ipresenter> extends RxFragment implements IFragment {
       @Inject
-      @Nullable
       protected P mPresenter;
 
       protected Context mContext;
@@ -43,12 +42,18 @@ public abstract class BaseFragment<P extends Ipresenter> extends RxFragment impl
       }
 
       @Override
-      public void onAttach(Context context) {
+      public void onAttach( Context context) {
 
             super.onAttach(context);
             mContext = context;
       }
 
+      @Override
+      public void onCreate(@Nullable Bundle savedInstanceState) {
+
+            super.onCreate(savedInstanceState);
+            initFragmentComponent();
+      }
 
       @Nullable
       @Override
@@ -71,6 +76,16 @@ public abstract class BaseFragment<P extends Ipresenter> extends RxFragment impl
             if (mUnbinder != null & mUnbinder != Unbinder.EMPTY)
                   mUnbinder.unbind();
             mUnbinder = null;
+
+      }
+
+      @Override
+      public void onDetach() {
+            super.onDetach();
             mContext = null;
       }
+
+      protected abstract void initFragmentComponent();
+
+
 }

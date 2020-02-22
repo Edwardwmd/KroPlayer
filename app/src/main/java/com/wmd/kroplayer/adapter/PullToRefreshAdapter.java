@@ -17,7 +17,7 @@ import java.util.List;
  * Desc:
  */
 public class PullToRefreshAdapter extends BaseQuickAdapter {
-      
+
       public PullToRefreshAdapter(int layoutResId, List data) {
 
             super(layoutResId, data);

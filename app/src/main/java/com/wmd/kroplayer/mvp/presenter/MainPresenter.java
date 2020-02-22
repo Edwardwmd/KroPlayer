@@ -19,7 +19,6 @@ import javax.inject.Singleton;
 public class MainPresenter extends BasePresenter<MainContract.Model, MainContract.View> {
       @Inject
       public MainPresenter(MainContract.View mView) {
-
             super(mView);
       }
 

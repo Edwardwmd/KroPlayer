@@ -35,6 +35,10 @@
             android:name=".mvp.ui.activity.MainActivity"
             android:configChanges="keyboardHidden|screenLayout|orientation"
             android:launchMode="singleTask" />
+        <activity
+            android:name=".mvp.ui.activity.VideoPlayActivity"
+            android:configChanges="orientation|keyboardHidden|screenLayout"
+            android:launchMode="singleTask" />
     </application>
 
 </manifest>

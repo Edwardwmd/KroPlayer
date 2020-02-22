@@ -14,21 +14,24 @@ import com.wmd.kroplayer.base.BaseFragment;
  * Link:    https://github.com/Edwardwmd
  * Data:    2020/2/2012
  * Version: 1.0.0
- * Desc:
+ * Desc:    SettingFragment
  */
 public class SettingFragment extends BaseFragment {
-      public static SettingFragment newInstance() {
-
-            SettingFragment fragment = null;
-            Bundle bundle = new Bundle();
-            synchronized (SettingFragment.class) {
-                  if (fragment == null) {
-                        fragment = new SettingFragment();
-                        fragment.setArguments(bundle);
-                  }
-            }
-            return fragment;
-      }
+//      private static SettingFragment fragment;
+//
+//      private SettingFragment() {
+//
+//      }
+//
+//      public static  SettingFragment newInstance() {
+//
+//            Bundle bundle = new Bundle();
+//            if (fragment == null) {
+//                  fragment = new SettingFragment();
+//                  fragment.setArguments(bundle);
+//            }
+//            return fragment;
+//      }
 
       @Override
       public int initLayoutRes() {
@@ -38,6 +41,11 @@ public class SettingFragment extends BaseFragment {
 
       @Override
       public void initData(View mView, @Nullable Bundle savedInstanceState) {
+
+      }
+
+      @Override
+      protected void initFragmentComponent() {
 
       }
 }

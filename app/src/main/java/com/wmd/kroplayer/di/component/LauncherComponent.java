@@ -1,4 +1,4 @@
-package com.wmd.kroplayer.di.compontent;
+package com.wmd.kroplayer.di.component;
 
 import com.wmd.kroplayer.mvp.ui.activity.LauncherActivity;
 import com.wmd.kroplayer.di.module.LauncherModule;

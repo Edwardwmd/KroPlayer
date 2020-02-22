@@ -1,32 +1,28 @@
 package com.wmd.kroplayer.mvp.ui.activity;
 
 import android.app.Activity;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.widget.TooltipCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.orhanobut.logger.Logger;
 import com.wmd.kroplayer.App;
 import com.wmd.kroplayer.R;
+import com.wmd.kroplayer.app.AppDataManager;
 import com.wmd.kroplayer.base.BaseActivity;
-import com.wmd.kroplayer.di.compontent.DaggerMainComponent;
+
+import com.wmd.kroplayer.di.component.DaggerMainComponent;
 import com.wmd.kroplayer.mvp.contract.MainContract;
 import com.wmd.kroplayer.mvp.presenter.MainPresenter;
 import com.wmd.kroplayer.utils.AppUtils;
 
+import javax.inject.Inject;
 
 import butterknife.BindView;
 
@@ -35,6 +31,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
       @BindView(R.id.tab_bottom_nav)
       BottomNavigationView tabBottomNav;
+//      @Inject
+//      AppDataManager manager;
 
       @Override
       protected void initActivityCompontent() {
@@ -47,27 +45,26 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                     .inject(this);
       }
 
-
       @Override
       public int initView(@Nullable Bundle savedInstanceState) {
 
             return R.layout.activity_main;
       }
 
-      @RequiresApi(api = Build.VERSION_CODES.O)
       @Override
       public void initData(@Nullable Bundle savedInstanceState) {
-
+            //解决BottomNavigationView大于3个item时的位移
+            AppUtils.disableShiftMode(tabBottomNav);
+            //绑定并初始化BottomNavigationView和Frangment
             stepUpFragment();
-            enableBottomBar();
 
-            AppUtils.showToast( findViewById(tabBottomNav.getMenu().getItem(0).getItemId()).getTooltipText());
+//            Logger.e("" + manager.getLocalAllVideo().toString());
       }
 
       private void stepUpFragment() {
 
-            AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                    R.id.tab_mainvideo, R.id.tab_videolist, R.id.tab_setting)
+            AppBarConfiguration appBarConfiguration = new AppBarConfiguration
+                    .Builder(R.id.tab_mainvideo, R.id.tab_videolist, R.id.tab_setting)
                     .build();
             NavController navController = Navigation.findNavController(this, R.id.fl_content);
             NavigationUI.navigateUp(navController, appBarConfiguration);
@@ -75,13 +72,11 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
       }
 
-
       @Override
       public Activity getActivity() {
 
             return this;
       }
-
 
       @Override
       public void showLoading() {
@@ -97,10 +92,11 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
       public void showMessage(String message) {
 
       }
-      private void enableBottomBar(){
-            for (int i = 0; i < tabBottomNav.getMenu().size(); i++) {
-                  MenuItem item = tabBottomNav.getMenu().getItem(i);
-                  TooltipCompat.setTooltipText(findViewById(item.getItemId()), null);
-            }
-      }
+//
+//      @Override
+//      protected void onDestroy() {
+//
+//            super.onDestroy();
+//            manager = null;
+//      }
 }

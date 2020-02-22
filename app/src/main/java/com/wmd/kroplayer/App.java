@@ -4,8 +4,8 @@ import android.app.Application;
 
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
-import com.wmd.kroplayer.di.compontent.AppComponent;
-import com.wmd.kroplayer.di.compontent.DaggerAppComponent;
+import com.wmd.kroplayer.di.component.AppComponent;
+import com.wmd.kroplayer.di.component.DaggerAppComponent;
 
 
 /**

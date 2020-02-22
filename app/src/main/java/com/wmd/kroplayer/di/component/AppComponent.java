@@ -1,7 +1,5 @@
-package com.wmd.kroplayer.di.compontent;
+package com.wmd.kroplayer.di.component;
 
-
-import android.app.Application;
 
 import com.wmd.kroplayer.App;
 import com.wmd.kroplayer.di.module.AppModule;

@@ -25,16 +25,16 @@ public class NotToUse {
       private List<Fragment> fragmentList;
       private int lastIndex;
 
-      private void addFragmentList() {
-
-            if (fragmentList == null) {
-                  fragmentList = new ArrayList<>();
-                  fragmentList.add(MainVideoFragment.newInstance());
-                  fragmentList.add(VideoListFragment.newInstance());
-                  fragmentList.add(SettingFragment.newInstance());
-            }
-
-      }
+//      private void addFragmentList() {
+//
+//            if (fragmentList == null) {
+//                  fragmentList = new ArrayList<>();
+//                  fragmentList.add(MainVideoFragment.newInstance());
+//                  fragmentList.add(VideoListFragment.newInstance());
+//                  fragmentList.add(SettingFragment.newInstance());
+//            }
+//
+//      }
 
 //      @Override
 //      public boolean onNavigationItemSelected(@NonNull MenuItem item) {

@@ -1,5 +1,7 @@
 package com.wmd.kroplayer.bean;
 
+import android.graphics.Bitmap;
+
 /**
  * Author:  Edwardwmd
  * E-mail:  1732141816wmd @ gmail.com
@@ -17,37 +19,43 @@ public class VideoInfoBean {
       private long videoDuration;
       //视频修改时间(xxxx.xx.xx)
       private String time;
+      //视频路径
+      private String path;
+      //视频截图路径
+      private String thumbPath;
+//      //视频截图
+//      private Bitmap bitmap;
 
       public VideoInfoBean() {
 
       }
 
-      public String getvideoName() {
+      public String getVideoName() {
 
             return videoName;
       }
 
-      public void setvideoName(String videoName) {
+      public void setVideoName(String videoName) {
 
             this.videoName = videoName;
       }
 
-      public long getvideoSize() {
+      public long getVideoSize() {
 
             return videoSize;
       }
 
-      public void setvideoSize(long videoSize) {
+      public void setVideoSize(long videoSize) {
 
             this.videoSize = videoSize;
       }
 
-      public long getvideoDuration() {
+      public long getVideoDuration() {
 
             return videoDuration;
       }
 
-      public void setvideoDuration(long videoDuration) {
+      public void setVideoDuration(long videoDuration) {
 
             this.videoDuration = videoDuration;
       }
@@ -62,4 +70,46 @@ public class VideoInfoBean {
             this.time = time;
       }
 
+      public String getPath() {
+
+            return path;
+      }
+
+      public void setPath(String path) {
+
+            this.path = path;
+      }
+
+      public String getThumbPath() {
+
+            return thumbPath;
+      }
+
+      public void setThumbPath(String thumbPath) {
+
+            this.thumbPath = thumbPath;
+      }
+
+//      public Bitmap getBitmap() {
+//
+//            return bitmap;
+//      }
+//
+//      public void setBitmap(Bitmap bitmap) {
+//
+//            this.bitmap = bitmap;
+//      }
+
+      @Override
+      public String toString() {
+
+            return "VideoInfoBean{" +
+                    "videoName='" + videoName + '\'' +
+                    ", videoSize=" + videoSize +
+                    ", videoDuration=" + videoDuration +
+                    ", time='" + time + '\'' +
+                    ", path='" + path + '\'' +
+                    ", thumbPath='" + thumbPath +
+                    '}';
+      }
 }

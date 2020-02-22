@@ -1,7 +1,6 @@
 package com.wmd.kroplayer.mvp.ui.activity;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -12,9 +11,13 @@ import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.wmd.kroplayer.App;
 import com.wmd.kroplayer.R;
 import com.wmd.kroplayer.base.BaseActivity;
-import com.wmd.kroplayer.di.compontent.DaggerLauncherComponent;
+import com.wmd.kroplayer.di.component.DaggerLauncherComponent;
 import com.wmd.kroplayer.mvp.contract.LauncherContract;
 import com.wmd.kroplayer.mvp.presenter.LauncherPresenter;
+import com.wmd.kroplayer.utils.AppUtils;
+import com.wmd.kroplayer.utils.JumpUtils;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 
@@ -25,6 +28,8 @@ public class LauncherActivity extends BaseActivity<LauncherPresenter> implements
       ImageView ivLogo;
       @BindView(R.id.ll_logo)
       LinearLayout llLogo;
+      @Inject
+      RxPermissions rxPermissions;
 
       @Override
       public int initView(@Nullable Bundle savedInstanceState) {
@@ -35,7 +40,7 @@ public class LauncherActivity extends BaseActivity<LauncherPresenter> implements
 
       @Override
       public void initData(@Nullable Bundle savedInstanceState) {
-//            setupWindowAnimations();
+
       }
 
 
@@ -48,16 +53,13 @@ public class LauncherActivity extends BaseActivity<LauncherPresenter> implements
       @Override
       public void turnToMain() {
 
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-            finish();
-            overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
+            JumpUtils.LauncherToMain(this);
       }
 
       @Override
       public RxPermissions getRxPermissions() {
 
-            return new RxPermissions(this);
+            return rxPermissions;
       }
 
       @Override
@@ -85,6 +87,14 @@ public class LauncherActivity extends BaseActivity<LauncherPresenter> implements
       @Override
       public void showMessage(String message) {
 
+            AppUtils.showSnackbar(this, message, false);
       }
 
+      @Override
+      protected void onDestroy() {
+
+            super.onDestroy();
+            rxPermissions = null;
+
+      }
 }

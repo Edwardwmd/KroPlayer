@@ -42,26 +42,21 @@ public class LauncherPresenter extends BasePresenter<LauncherContract.Model, Lau
       @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
       void onCreate() {
 
-            if (mView != null) {
-                  mView.getRxPermissions().request(Manifest.permission.READ_EXTERNAL_STORAGE,
-                          Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                          Manifest.permission.READ_PHONE_STATE,
-                          Manifest.permission.INTERNET)
-                          .subscribe(aBoolean -> {
+            mView.getRxPermissions().request(Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.READ_PHONE_STATE,
+                    Manifest.permission.INTERNET)
+                    .subscribe(aBoolean -> {
 
-                                if (aBoolean) {
-                                      //申请的权限全部允许
-                                      jumpToMainByTimer();
-                                } else {
-                                      //只要有一个权限被拒绝，就会执行
-                                      Toast.makeText(mView.getActivity(), "请前往授权,否则部分软件功能无法使用哦!~", Toast.LENGTH_SHORT).show();
-                                      //申请的权限全部允许
-                                      jumpToMainByTimer();
-                                }
-                          });
-            }
-
-
+                          if (aBoolean) {
+                                //申请的权限全部允许
+                                jumpToMainByTimer();
+                          } else {
+                                 mView.showMessage("请开启权限!");
+                                //申请的权限全部允许
+                                jumpToMainByTimer();
+                          }
+                    });
       }
 
       private void jumpToMainByTimer() {

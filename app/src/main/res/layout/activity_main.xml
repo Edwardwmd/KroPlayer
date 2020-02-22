@@ -1,32 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".mvp.ui.activity.MainActivity">
+
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/tab_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/colorPrimary"
+        app:layout_constraintBottom_toTopOf="@id/fl_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_weight="1" />
     <!-- NavHostFragment是固定写法 ; mobile_navigation定位到每个fragment上-->
     <fragment
         android:id="@+id/fl_content"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
         app:defaultNavHost="true"
-        app:navGraph="@navigation/mobile_navigation"
-        tools:ignore="FragmentTagUsage" />
+        app:layout_constraintBottom_toTopOf="@id/tab_bottom_nav"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tab_toolbar"
+        app:layout_constraintVertical_weight="20"
+        app:navGraph="@navigation/mobile_navigation" />
+
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/tab_bottom_nav"
-        android:tooltipText="@null"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:background="@color/colorPrimary"
         app:itemIconTint="@drawable/selector_tab_color"
         app:itemTextColor="@drawable/selector_tab_color"
         app:labelVisibilityMode="labeled"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fl_content"
+        app:layout_constraintVertical_weight="2"
         app:menu="@menu/bottom_navigation" />
 
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

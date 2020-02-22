@@ -1,15 +1,7 @@
 package com.wmd.kroplayer.di.module;
 
-import android.app.Application;
 
-import com.wmd.kroplayer.App;
-
-import javax.inject.Named;
-import javax.inject.Singleton;
-
-import dagger.Binds;
 import dagger.Module;
-import dagger.Provides;
 
 /**
  * Author:  Edwardwmd
