@@ -60,7 +60,7 @@ public class LauncherPresenter extends BasePresenter<LauncherContract.Model, Lau
       }
 
       private void jumpToMainByTimer() {
-
+            //跳转
             addCompositeDisposable(Observable.timer(1500, TimeUnit.MILLISECONDS)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())

@@ -22,7 +22,7 @@ import java.util.List;
  */
 public class AppDataManager {
 
-      String[] mediaColumns = {MediaStore.Video.Media._ID,
+      private String[] mediaColumns = {MediaStore.Video.Media._ID,
               MediaStore.Video.Media.DISPLAY_NAME,
               MediaStore.Video.Media.SIZE,
               MediaStore.Video.Media.DURATION,

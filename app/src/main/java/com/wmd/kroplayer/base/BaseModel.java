@@ -14,6 +14,9 @@ import androidx.lifecycle.OnLifecycleEvent;
  * Desc:
  */
 public class BaseModel implements IModel, LifecycleObserver {
+      public BaseModel() {
+      }
+
       @Override
       public void onDestory() {
       }

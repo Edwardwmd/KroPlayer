@@ -1,14 +1,7 @@
 package com.wmd.kroplayer.di.module;
 
-import androidx.fragment.app.FragmentTransaction;
-
-import com.wmd.kroplayer.app.AppDataManager;
-import com.wmd.kroplayer.di.scope.ActivityScope;
-import com.wmd.kroplayer.mvp.contract.MainContract;
-import com.wmd.kroplayer.mvp.ui.activity.MainActivity;
-
 import dagger.Module;
-import dagger.Provides;
+;
 
 /**
  * Author:  Edwardwmd
@@ -20,10 +13,6 @@ import dagger.Provides;
  */
 @Module
 public class MainModule {
-//      @ActivityScope
-//      @Provides
-//      static AppDataManager providerAppDataManager(MainContract.View view){
-//            return AppDataManager.newInstance(view.getActivity());
-//      }
+
 
 }

@@ -5,6 +5,11 @@ import android.content.Context;
 
 import com.wmd.kroplayer.base.BaseView;
 import com.wmd.kroplayer.base.IModel;
+import com.wmd.kroplayer.bean.VideoInfoBean;
+
+import java.util.List;
+
+import io.reactivex.Observable;
 
 /**
  * Author:  Edwardwmd
@@ -16,9 +21,15 @@ import com.wmd.kroplayer.base.IModel;
  */
 public interface MainVideoContract {
       interface Model extends IModel {
+            Observable<List<VideoInfoBean>> getVideoInfos(Context context);
       }
 
       interface View extends BaseView {
+            //开始加载更多
+            void startLoadMore();
+
+            void endLoadMore();
+
             Activity getActivity();
       }
 

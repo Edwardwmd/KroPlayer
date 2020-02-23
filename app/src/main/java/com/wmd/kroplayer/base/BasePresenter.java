@@ -2,6 +2,7 @@ package com.wmd.kroplayer.base;
 
 import android.util.Log;
 
+import androidx.core.util.Preconditions;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.LifecycleOwner;
@@ -31,13 +32,14 @@ public class BasePresenter<M extends IModel, V extends BaseView> implements Ipre
       }
 
       public BasePresenter(V mView) {
-
+            Preconditions.checkNotNull(mView, "%s cannot be null" + BaseView.class.getName());
             this.mView = mView;
             onStart();
       }
 
       public BasePresenter(V mView, M mModel) {
-
+            Preconditions.checkNotNull(mModel, "%s cannot be null" + IModel.class.getName());
+            Preconditions.checkNotNull(mView, "%s cannot be null" + BaseView.class.getName());
             this.mView = mView;
             this.mModel = mModel;
             onStart();

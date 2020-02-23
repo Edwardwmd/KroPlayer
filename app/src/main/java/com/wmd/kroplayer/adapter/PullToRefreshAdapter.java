@@ -1,12 +1,19 @@
 package com.wmd.kroplayer.adapter;
 
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
+
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
+import com.wmd.kroplayer.R;
+import com.wmd.kroplayer.bean.VideoInfoBean;
 
 import java.util.List;
+
 
 /**
  * Author:  Edwardwmd
@@ -14,22 +21,34 @@ import java.util.List;
  * Link:    https://github.com/Edwardwmd
  * Data:    2020/2/2220
  * Version: 1.0.0
- * Desc:
+ * Desc:    PullToRefreshAdapter
  */
-public class PullToRefreshAdapter extends BaseQuickAdapter {
+public class PullToRefreshAdapter extends BaseQuickAdapter<VideoInfoBean, BaseViewHolder> {
+//      private List<VideoInfoBean> videoInfoBeanList;
 
-      public PullToRefreshAdapter(int layoutResId, List data) {
+      public PullToRefreshAdapter(List<VideoInfoBean> videoInfoBeanList) {
 
-            super(layoutResId, data);
+            super(R.layout.item_mainvideo, videoInfoBeanList);
+//            this.videoInfoBeanList = videoInfoBeanList;
+            setAnimationEnable(true);
+            setAnimationWithDefault(AnimationType.ScaleIn);
       }
 
       @Override
-      protected void convert(BaseViewHolder baseViewHolder, Object o) {
+      protected void convert(@NonNull BaseViewHolder mVH, VideoInfoBean videoInfoBean) {
+
+            if (videoInfoBean != null) {
+//            ((ImageView)mVH.getView(R.id.iv_video_thum)).setImageResource();
+                  ((TextView) mVH.getView(R.id.tv_videosize)).setText(String.valueOf(videoInfoBean.getVideoSize()));
+                  ((TextView) mVH.getView(R.id.tv_videodate)).setText(videoInfoBean.getTime());
+                  ((TextView) mVH.getView(R.id.tv_videoname)).setText(videoInfoBean.getVideoName());
+                  ((TextView) mVH.getView(R.id.tv_videoduration)).setText(String.valueOf(videoInfoBean.getVideoDuration()));
+
+            } else {
+
+            }
+
 
       }
 
-      @Override
-      public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-
-      }
 }

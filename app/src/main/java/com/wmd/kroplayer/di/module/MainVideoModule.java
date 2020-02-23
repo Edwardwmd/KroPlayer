@@ -1,11 +1,24 @@
 package com.wmd.kroplayer.di.module;
 
-import com.wmd.kroplayer.app.AppDataManager;
+
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.wmd.kroplayer.adapter.PullToRefreshAdapter;
+import com.wmd.kroplayer.bean.VideoInfoBean;
+import com.wmd.kroplayer.di.scope.ActivityScope;
 import com.wmd.kroplayer.di.scope.FragmentScope;
 import com.wmd.kroplayer.mvp.contract.MainVideoContract;
+import com.wmd.kroplayer.mvp.model.MainVideoModel;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
+
 
 /**
  * Author:  Edwardwmd
@@ -16,10 +29,25 @@ import dagger.Provides;
  * Desc:    MainVideoModule
  */
 @Module
-public class MainVideoModule {
+public abstract class MainVideoModule {
+      @Binds
+      abstract MainVideoContract.Model bindUserModel(MainVideoModel model);
+
       @FragmentScope
       @Provides
-      static AppDataManager provideMainVideoModule(MainVideoContract.View view){
-            return AppDataManager.newInstance(view.getActivity());
+      static RecyclerView.LayoutManager provideLayoutManager(MainVideoContract.View view) {
+            return new LinearLayoutManager(view.getActivity());
+      }
+
+      @FragmentScope
+      @Provides
+      static List<VideoInfoBean> provideVideoInfoList() {
+            return new ArrayList<>();
+      }
+
+      @FragmentScope
+      @Provides
+      static PullToRefreshAdapter provideVideoInfoAdapter(List<VideoInfoBean> list) {
+            return new PullToRefreshAdapter(list);
       }
 }

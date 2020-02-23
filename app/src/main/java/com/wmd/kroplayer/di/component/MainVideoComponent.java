@@ -2,7 +2,7 @@ package com.wmd.kroplayer.di.component;
 
 import com.wmd.kroplayer.di.module.MainVideoModule;
 import com.wmd.kroplayer.di.scope.FragmentScope;
-import com.wmd.kroplayer.mvp.contract.MainContract;
+
 import com.wmd.kroplayer.mvp.contract.MainVideoContract;
 import com.wmd.kroplayer.mvp.ui.fragment.MainVideoFragment;
 
