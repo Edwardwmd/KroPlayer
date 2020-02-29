@@ -4,4 +4,9 @@
     <string name="text_mainvideo">主页</string>
     <string name="text_videolist">文件</string>
     <string name="text_setting">设置</string>
+    <string name="text_mainvideo_videodurationtips">视频时长:</string>
+    <string name="text_mainvideo_videoname">电影名称</string>
+    <string name="text_mainvideo_trafficsize">0.00kb</string>
+    <string name="text_mainvide_videodate">2020.01.01</string>
+    <string name="text_mainvideo_videoduration">1:56:30</string>
 </resources>

@@ -37,7 +37,7 @@ public class MainVideoModel extends BaseModel implements MainVideoContract.Model
               MediaStore.Video.Media.DISPLAY_NAME,
               MediaStore.Video.Media.SIZE,
               MediaStore.Video.Media.DURATION,
-              MediaStore.Video.Media.DATE_ADDED,
+              MediaStore.Video.Media.DATE_TAKEN,
               MediaStore.Video.Media.DATA,
               MediaStore.Video.Thumbnails.DATA};
 
@@ -48,7 +48,7 @@ public class MainVideoModel extends BaseModel implements MainVideoContract.Model
        * @return Observable<List < VideoInfoBean>>
        */
       @Override
-      public synchronized Observable<List<VideoInfoBean>> getVideoInfos(Context context) {
+      public Observable<List<VideoInfoBean>> getVideoInfos(Context context) {
             return Observable.create((ObservableOnSubscribe<List<VideoInfoBean>>) emitter -> {
                   List<VideoInfoBean> videoInfoBeans = new ArrayList<>();
                   Cursor cursor = null;
@@ -60,14 +60,14 @@ public class MainVideoModel extends BaseModel implements MainVideoContract.Model
                                     VideoInfoBean info = new VideoInfoBean();
                                     info.setVideoName(cursor.getString(cursor.getColumnIndex(mediaColumns[1])));
                                     info.setVideoSize(cursor.getLong(cursor.getColumnIndex(mediaColumns[2])));
-                                    info.setVideoDuration(cursor.getInt(cursor.getColumnIndex(mediaColumns[3])));
-                                    info.setTime(cursor.getString(cursor.getColumnIndex(mediaColumns[4])));
+                                    info.setVideoDuration(cursor.getLong(cursor.getColumnIndex(mediaColumns[3])));
+                                    info.setTime(cursor.getLong(cursor.getColumnIndex(mediaColumns[4])));
                                     info.setPath(cursor.getString(cursor.getColumnIndex(mediaColumns[5])));
                                     info.setThumbPath(cursor.getString(cursor.getColumnIndex(mediaColumns[6])));
-
                                     videoInfoBeans.add(info);
-                              } while (cursor.moveToNext());
 
+                              } while (cursor.moveToNext());
+                              Logger.e("所有URL------>{ "+videoInfoBeans.toString() +" }");
                         }
                         emitter.onNext(videoInfoBeans);
                         emitter.onComplete();

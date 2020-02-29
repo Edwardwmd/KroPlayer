@@ -18,7 +18,7 @@ public class VideoInfoBean {
       //视频时长
       private long videoDuration;
       //视频修改时间(xxxx.xx.xx)
-      private String time;
+      private long time;
       //视频路径
       private String path;
       //视频截图路径
@@ -60,12 +60,12 @@ public class VideoInfoBean {
             this.videoDuration = videoDuration;
       }
 
-      public String getTime() {
+      public long getTime() {
 
             return time;
       }
 
-      public void setTime(String time) {
+      public void setTime(long time) {
 
             this.time = time;
       }

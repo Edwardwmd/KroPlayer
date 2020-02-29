@@ -2,7 +2,6 @@ package com.wmd.kroplayer.mvp.presenter;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.widget.Toast;
 
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.OnLifecycleEvent;
@@ -18,8 +17,8 @@ import javax.inject.Inject;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+
 
 /**
  * Author:  Edwardwmd
@@ -52,7 +51,7 @@ public class LauncherPresenter extends BasePresenter<LauncherContract.Model, Lau
                                 //申请的权限全部允许
                                 jumpToMainByTimer();
                           } else {
-                                 mView.showMessage("请开启权限!");
+                                mView.showMessage("请开启权限!");
                                 //申请的权限全部允许
                                 jumpToMainByTimer();
                           }

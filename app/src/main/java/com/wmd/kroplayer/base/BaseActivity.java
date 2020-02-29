@@ -2,16 +2,11 @@ package com.wmd.kroplayer.base;
 
 import android.os.Build;
 import android.os.Bundle;
-
 import android.view.InflateException;
 import android.view.Window;
 import android.view.WindowManager;
 
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
 
 import com.trello.rxlifecycle3.components.support.RxAppCompatActivity;
 
@@ -36,7 +31,11 @@ public abstract class BaseActivity<P extends Ipresenter> extends RxAppCompatActi
 
       @Override
       protected void onCreate(@Nullable Bundle savedInstanceState) {
-
+            // 去掉窗口标题
+            requestWindowFeature(Window.FEATURE_NO_TITLE);
+            // 隐藏状态栏,全屏显示
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            //实现沉浸式状态栏
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                   getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
                           WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -70,13 +69,6 @@ public abstract class BaseActivity<P extends Ipresenter> extends RxAppCompatActi
             }
             if (mUnbinder != null && mUnbinder != Unbinder.EMPTY)
                   mUnbinder.unbind();
-      }
-
-      protected void addFragmentToActivity(FragmentManager fragmentManager, Fragment fragment, int frameId) {
-
-            FragmentTransaction transaction = fragmentManager.beginTransaction();
-            transaction.add(frameId, fragment);
-            transaction.commit();
       }
 
 }

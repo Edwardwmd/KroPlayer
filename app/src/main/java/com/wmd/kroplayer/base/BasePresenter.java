@@ -1,6 +1,6 @@
 package com.wmd.kroplayer.base;
 
-import android.util.Log;
+import android.annotation.SuppressLint;
 
 import androidx.core.util.Preconditions;
 import androidx.lifecycle.Lifecycle;
@@ -31,12 +31,14 @@ public class BasePresenter<M extends IModel, V extends BaseView> implements Ipre
             onStart();
       }
 
+      @SuppressLint("RestrictedApi")
       public BasePresenter(V mView) {
             Preconditions.checkNotNull(mView, "%s cannot be null" + BaseView.class.getName());
             this.mView = mView;
             onStart();
       }
 
+      @SuppressLint("RestrictedApi")
       public BasePresenter(V mView, M mModel) {
             Preconditions.checkNotNull(mModel, "%s cannot be null" + IModel.class.getName());
             Preconditions.checkNotNull(mView, "%s cannot be null" + BaseView.class.getName());
@@ -82,7 +84,6 @@ public class BasePresenter<M extends IModel, V extends BaseView> implements Ipre
 
       @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
       void onDeatory(LifecycleOwner ower) {
-
             ower.getLifecycle().removeObserver(this);
       }
 }

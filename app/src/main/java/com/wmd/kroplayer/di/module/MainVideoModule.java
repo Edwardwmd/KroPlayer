@@ -1,6 +1,7 @@
 package com.wmd.kroplayer.di.module;
 
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -47,7 +48,13 @@ public abstract class MainVideoModule {
 
       @FragmentScope
       @Provides
-      static PullToRefreshAdapter provideVideoInfoAdapter(List<VideoInfoBean> list) {
-            return new PullToRefreshAdapter(list);
+      static PullToRefreshAdapter provideVideoInfoAdapter(MainVideoContract.View view, List<VideoInfoBean> list) {
+            return new PullToRefreshAdapter(view.getActivity(), list);
+      }
+
+      @FragmentScope
+      @Provides
+      static AlertDialog.Builder provideAlertDialogBuilder(MainVideoContract.View view) {
+            return new AlertDialog.Builder(view.getActivity());
       }
 }

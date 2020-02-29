@@ -2,14 +2,8 @@ package com.wmd.kroplayer.utils;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.graphics.Bitmap;
-import android.media.ThumbnailUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.TooltipCompat;
 
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
@@ -19,11 +13,8 @@ import com.google.android.material.snackbar.Snackbar;
 import com.orhanobut.logger.Logger;
 import com.wmd.kroplayer.App;
 
-import java.lang.reflect.Field;
-
 import io.reactivex.Completable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Action;
 
 /**
  * Author:  Edwardwmd
@@ -37,22 +28,6 @@ public class AppUtils {
       private AppUtils() {
 
             throw new IllegalStateException("you can't instantiate AppUtils!");
-      }
-
-
-      /**
-       * @param videoPath 视频路径
-       * @param width     图片宽度
-       * @param height    图片高度
-       * @param kind      eg:MediaStore.Video.Thumbnails.MICRO_KIND   MINI_KIND: 512 x 384，MICRO_KIND: 96 x 96
-       * @return
-       */
-      public static Bitmap getVideoThumbnail(String videoPath, int width, int height, int kind) {
-            // 获取视频的缩略图
-            Bitmap bitmap = ThumbnailUtils.createVideoThumbnail(videoPath, kind);
-            //extractThumbnail 方法二次处理,以指定的大小提取居中的图片,获取最终我们想要的图片
-            bitmap = ThumbnailUtils.extractThumbnail(bitmap, width, height, ThumbnailUtils.OPTIONS_RECYCLE_INPUT);
-            return bitmap;
       }
 
       /**
@@ -86,7 +61,6 @@ public class AppUtils {
       }
 
       /**
-       *
        * @param activity
        * @param message
        * @param isLong
@@ -100,4 +74,5 @@ public class AppUtils {
             }).subscribeOn(AndroidSchedulers.mainThread()).subscribe();
 
       }
+
 }

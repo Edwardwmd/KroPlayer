@@ -1,9 +1,13 @@
 package com.wmd.kroplayer;
 
-import android.app.Application;
+import androidx.multidex.MultiDex;
+import androidx.multidex.MultiDexApplication;
 
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
+import com.shuyu.gsyvideoplayer.player.IjkPlayerManager;
+import com.shuyu.gsyvideoplayer.player.PlayerFactory;
+import com.shuyu.gsyvideoplayer.utils.GSYVideoType;
 import com.wmd.kroplayer.di.component.AppComponent;
 import com.wmd.kroplayer.di.component.DaggerAppComponent;
 
@@ -16,7 +20,7 @@ import com.wmd.kroplayer.di.component.DaggerAppComponent;
  * Version: 1.0.0
  * Desc:    App
  */
-public class App extends Application {
+public class App extends MultiDexApplication {
       public static App instance;
       public static AppComponent mAppComponent;
 
@@ -34,6 +38,12 @@ public class App extends Application {
             mAppComponent.inject(instance);
             //初始化Logger
             Logger.addLogAdapter(new AndroidLogAdapter());
+            //打包index
+            MultiDex.install(this);
+
+            PlayerFactory.setPlayManager(IjkPlayerManager.class);//IjkPlay
+            GSYVideoType.setRenderType(GSYVideoType.TEXTURE);
+
       }
 
       @Override

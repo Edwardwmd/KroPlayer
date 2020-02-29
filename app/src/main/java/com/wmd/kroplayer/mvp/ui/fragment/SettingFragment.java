@@ -17,21 +17,21 @@ import com.wmd.kroplayer.base.BaseFragment;
  * Desc:    SettingFragment
  */
 public class SettingFragment extends BaseFragment {
-//      private static SettingFragment fragment;
-//
-//      private SettingFragment() {
-//
-//      }
-//
-//      public static  SettingFragment newInstance() {
-//
-//            Bundle bundle = new Bundle();
-//            if (fragment == null) {
-//                  fragment = new SettingFragment();
-//                  fragment.setArguments(bundle);
-//            }
-//            return fragment;
-//      }
+    private  static SettingFragment fragment;
+
+      public static SettingFragment newInstance() {
+
+            Bundle bundle = new Bundle();
+            if (fragment == null) {
+                  synchronized (SettingFragment.class) {
+                        if (fragment == null) {
+                              fragment = new SettingFragment();
+                              fragment.setArguments(bundle);
+                        }
+                  }
+            }
+            return fragment;
+      }
 
       @Override
       public int initLayoutRes() {

@@ -2,6 +2,8 @@ package com.wmd.kroplayer.app;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.provider.MediaStore;
 
 import androidx.core.content.ContextCompat;
@@ -69,8 +71,8 @@ public class AppDataManager {
                               VideoInfoBean info = new VideoInfoBean();
                               info.setVideoName(cursor.getString(cursor.getColumnIndex(mediaColumns[1])));
                               info.setVideoSize(cursor.getLong(cursor.getColumnIndex(mediaColumns[2])));
-                              info.setVideoDuration(cursor.getInt(cursor.getColumnIndex(mediaColumns[3])));
-                              info.setTime(cursor.getString(cursor.getColumnIndex(mediaColumns[4])));
+                              info.setVideoDuration(cursor.getLong(cursor.getColumnIndex(mediaColumns[3])));
+                              info.setTime(cursor.getLong(cursor.getColumnIndex(mediaColumns[4])));
                               info.setPath(cursor.getString(cursor.getColumnIndex(mediaColumns[5])));
                               info.setThumbPath(cursor.getString(cursor.getColumnIndex(mediaColumns[6])));
 

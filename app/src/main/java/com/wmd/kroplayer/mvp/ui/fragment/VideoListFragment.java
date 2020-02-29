@@ -17,22 +17,21 @@ import com.wmd.kroplayer.base.BaseFragment;
  * Desc:    VideoListFragment
  */
 public class VideoListFragment extends BaseFragment {
-//      private static VideoListFragment fragment;
-//
-//      private VideoListFragment() {
-//
-//      }
-//
-//      public static  VideoListFragment newInstance() {
-//
-//            Bundle bundle = new Bundle();
-//            if (fragment == null) {
-//                  fragment = new VideoListFragment();
-//                  fragment.setArguments(bundle);
-//            }
-//
-//            return fragment;
-//      }
+      private volatile static VideoListFragment fragment;
+
+      public static VideoListFragment newInstance() {
+
+            Bundle bundle = new Bundle();
+            if (fragment == null) {
+                  synchronized (VideoListFragment.class) {
+                        if (fragment == null) {
+                              fragment = new VideoListFragment();
+                              fragment.setArguments(bundle);
+                        }
+                  }
+            }
+            return fragment;
+      }
 
       @Override
       public int initLayoutRes() {

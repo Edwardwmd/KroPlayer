@@ -16,20 +16,17 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_weight="1" />
-    <!-- NavHostFragment是固定写法 ; mobile_navigation定位到每个fragment上-->
-    <fragment
+        app:layout_constraintVertical_weight="2" />
+
+    <FrameLayout
         android:id="@+id/fl_content"
-        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:defaultNavHost="true"
         app:layout_constraintBottom_toTopOf="@id/tab_bottom_nav"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tab_toolbar"
-        app:layout_constraintVertical_weight="20"
-        app:navGraph="@navigation/mobile_navigation" />
+        app:layout_constraintVertical_weight="20" />
 
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

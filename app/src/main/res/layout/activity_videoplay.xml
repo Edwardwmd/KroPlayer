@@ -4,13 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/tvfl"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="videoplayer"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <com.wmd.kroplayer.mvp.ui.view.KroGsyVideoPlayer
+        android:id="@+id/kro_gsyplayer"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
