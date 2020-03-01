@@ -1,7 +1,9 @@
 package com.wmd.kroplayer;
 
+import android.app.Application;
+
 import androidx.multidex.MultiDex;
-import androidx.multidex.MultiDexApplication;
+
 
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
@@ -20,7 +22,7 @@ import com.wmd.kroplayer.di.component.DaggerAppComponent;
  * Version: 1.0.0
  * Desc:    App
  */
-public class App extends MultiDexApplication {
+public class App extends Application {
       public static App instance;
       public static AppComponent mAppComponent;
 

@@ -1,12 +1,24 @@
 <resources>
     <string name="app_name">KroPlayer</string>
     <string name="kroplayer">KroPlayer</string>
+    <!--    主页面三个bottomNavigation Icon对应名称-->
     <string name="text_mainvideo">主页</string>
     <string name="text_videolist">文件</string>
     <string name="text_setting">设置</string>
+
     <string name="text_mainvideo_videodurationtips">视频时长:</string>
     <string name="text_mainvideo_videoname">电影名称</string>
     <string name="text_mainvideo_trafficsize">0.00kb</string>
     <string name="text_mainvide_videodate">2020.01.01</string>
     <string name="text_mainvideo_videoduration">1:56:30</string>
+    <!--    播放速度-->
+    <string name="text_play_speed_one">0.5x</string>
+    <string name="text_play_speed_two">0.75x</string>
+    <string name="text_play_speed_three">1.0x</string>
+    <string name="text_play_speed_four">1.25x</string>
+    <string name="text_play_speed_five">1.5x</string>
+    <string name="text_play_speed_six">1.75x</string>
+    <string name="text_play_speed_seven">2.0x</string>
+    <!--    共享元素->跳转共享同名称-->
+    <string name="text_transition_share_image">share_image</string>
 </resources>

@@ -18,6 +18,7 @@ import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
 import com.shuyu.gsyvideoplayer.video.base.GSYBaseVideoPlayer;
 import com.wmd.kroplayer.utils.JumpUtils;
 
+
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -106,7 +107,7 @@ public abstract class BaseKroGSYVideoActivity<T extends GSYBaseVideoPlayer> exte
                   Logger.e("全屏开!!!!!!!!!!!!");
                   return;
             }
-            JumpUtils.LauncherToMain(this);
+//            JumpUtils.LauncherToMain(this);
             super.onBackPressed();
       }
 
@@ -148,10 +149,10 @@ public abstract class BaseKroGSYVideoActivity<T extends GSYBaseVideoPlayer> exte
       public void onConfigurationChanged(Configuration newConfig) {
             super.onConfigurationChanged(newConfig);
             //如果旋转了就全屏
-            if (isPlay && !isPause) {
+            if (isPlay && !isPause)
                   getGSYVideoPlayer().onConfigurationChanged(this, newConfig, orientationUtils, hideActionBarWhenFull(), hideStatusBarWhenFull());
-            }
       }
+
 
       @Override
       public void onStartPrepared(String url, Object... objects) {
@@ -278,6 +279,7 @@ public abstract class BaseKroGSYVideoActivity<T extends GSYBaseVideoPlayer> exte
       public boolean hideStatusBarWhenFull() {
             return true;
       }
+
 
       /**
        * 播放控件

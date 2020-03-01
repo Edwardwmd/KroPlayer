@@ -47,12 +47,7 @@ public class BitmapUtils {
                   return null;
             } finally {
                   retriever.release();
-//                  if (bitmap != null && !bitmap.isRecycled()) {
-//                        bitmap.recycle();
-//                        bitmap = null;
-//                        Logger.e("图片回收--->");
-//                  }
-//                  System.gc();
+
             }
 
       }
@@ -88,7 +83,6 @@ public class BitmapUtils {
       @SuppressLint("CheckResult")
       public static void showVideoThum(String videoUrl, ImageView videoThum) {
             Observable.create((ObservableOnSubscribe<Bitmap>) emitter -> {
-                  Logger.e("视频截图加载成功!!!!-->");
                   emitter.onNext(getVideoBitmap(videoUrl));
                   emitter.onComplete();
             }).subscribeOn(Schedulers.io())
@@ -98,6 +92,7 @@ public class BitmapUtils {
                           videoThum.setImageBitmap(bitmap);
                     });
       }
+
 
 
 }

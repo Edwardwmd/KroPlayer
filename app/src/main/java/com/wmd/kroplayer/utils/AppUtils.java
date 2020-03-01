@@ -2,9 +2,19 @@ package com.wmd.kroplayer.utils;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.media.MediaMetadataRetriever;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
+import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -12,9 +22,14 @@ import com.google.android.material.bottomnavigation.LabelVisibilityMode;
 import com.google.android.material.snackbar.Snackbar;
 import com.orhanobut.logger.Logger;
 import com.wmd.kroplayer.App;
+import com.wmd.kroplayer.R;
+
+import java.security.MessageDigest;
 
 import io.reactivex.Completable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+
+import static com.bumptech.glide.load.resource.bitmap.VideoDecoder.FRAME_OPTION;
 
 /**
  * Author:  Edwardwmd
@@ -74,5 +89,43 @@ public class AppUtils {
             }).subscribeOn(AndroidSchedulers.mainThread()).subscribe();
 
       }
+
+      /**
+       * 截取视频画面某一帧图片
+       *
+       * @param context         上下文
+       * @param localPath       本地视频路径
+       * @param imageView       设置图片控件
+       * @param frameTimeMicros 获取某一时间帧 /微秒
+       */
+      @SuppressLint("CheckResult")
+      public static void loadVideoScreenshot(final Context context, String localPath, ImageView imageView, long frameTimeMicros) {
+            RequestOptions requestOptions = RequestOptions.frameOf(frameTimeMicros);
+            requestOptions.set(FRAME_OPTION, MediaMetadataRetriever.OPTION_CLOSEST);
+            requestOptions.transform(new BitmapTransformation() {
+                  @Override
+                  protected Bitmap transform(@NonNull BitmapPool pool, @NonNull Bitmap toTransform, int outWidth, int outHeight) {
+                        return toTransform;
+                  }
+
+                  @Override
+                  public void updateDiskCacheKey(MessageDigest messageDigest) {
+                        try {
+                              messageDigest.update((context.getPackageName() + "RotateTransform").getBytes("utf-8"));
+                        } catch (Exception e) {
+                              e.printStackTrace();
+                        }
+                  }
+            });
+            Glide
+                    .with(context)
+                    .load(localPath)
+                    .error(R.drawable.ic_videoplaceholder)
+                    .placeholder(R.drawable.ic_videoplaceholder_noload)
+                    .fitCenter()
+                    .apply(requestOptions)
+                    .into(imageView);
+      }
+
 
 }

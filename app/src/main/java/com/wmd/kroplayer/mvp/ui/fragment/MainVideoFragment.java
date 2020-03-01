@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -25,24 +26,27 @@ import com.wmd.kroplayer.mvp.ui.activity.MainActivity;
 import com.wmd.kroplayer.mvp.ui.activity.VideoPlayActivity;
 import com.wmd.kroplayer.utils.AppUtils;
 import com.wmd.kroplayer.utils.FileUtils;
+import com.wmd.kroplayer.utils.JumpUtils;
+import com.wmd.kroplayer.utils.StringsUtils;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 
+import static com.wmd.kroplayer.utils.ContractUtils.VIDEO_PLAYE_NAME;
 import static com.wmd.kroplayer.utils.ContractUtils.VIDEO_PLAYE_PATH;
+import static com.wmd.kroplayer.utils.ContractUtils.VIDEO_PLAYE_THUM;
 
 
 /**
  * Author:  Edwardwmd
  * E-mail:  1732141816wmd @ gmail.com
  * Link:    https://github.com/Edwardwmd
- * Data:    2020/2/2012
+ * Data:    2020/2/20
  * Version: 1.0.0
  * Desc:    MainVideoFragment
  */
-public class MainVideoFragment extends BaseFragment<MainVideoPresenter> implements MainVideoContract.View, SwipeRefreshLayout.OnRefreshListener, OnItemClickListener, OnItemLongClickListener {
-
+public class MainVideoFragment extends BaseFragment<MainVideoPresenter> implements MainVideoContract.View, SwipeRefreshLayout.OnRefreshListener, OnItemLongClickListener, OnItemClickListener {
 
       @BindView(R.id.rcv_video)
       RecyclerView rcvVideo;
@@ -98,14 +102,11 @@ public class MainVideoFragment extends BaseFragment<MainVideoPresenter> implemen
 
       @Override
       public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-            Intent intent = new Intent(context, VideoPlayActivity.class);
-            intent.putExtra(VIDEO_PLAYE_PATH, mAdapter.getVideoInfoBeanList().get(position).getPath());
-            Logger.e("本地播放URL------->: "+ mAdapter.getVideoInfoBeanList().get(position));
-            startActivity(intent);
-            ((MainActivity) context).finish();
 
-            AppUtils.showSnackbar(getActivity(), mAdapter.getVideoInfoBeanList().get(position).getThumbPath(), false);
-
+            JumpUtils.JumpToVideoPlay((MainActivity) context,
+                    view.findViewById(R.id.iv_video_thum),
+                    mAdapter.getVideoInfoBeanList().get(position),
+                    StringsUtils.getString(R.string.text_transition_share_image));
       }
 
       @Override
@@ -130,18 +131,7 @@ public class MainVideoFragment extends BaseFragment<MainVideoPresenter> implemen
       }
 
       @Override
-      public void onDestroy() {
-            super.onDestroy();
-            if (mAdapter != null)
-                  mAdapter.weakRecyclerView.clear();
-            mAdapter = null;
-            layoutManager = null;
-            builder = null;
-      }
-
-      @Override
       protected void initFragmentComponent() {
-
             DaggerMainVideoComponent
                     .builder()
                     .appComponent(App.getAppComponent())
@@ -149,7 +139,6 @@ public class MainVideoFragment extends BaseFragment<MainVideoPresenter> implemen
                     .build()
                     .inject(this);
       }
-
 
       @Override
       public void startLoadMore() {
@@ -185,5 +174,16 @@ public class MainVideoFragment extends BaseFragment<MainVideoPresenter> implemen
             });
             builder.setNegativeButton("取消", (dialog, which) -> dialog.dismiss());
             builder.create().show();
+      }
+
+      @Override
+      public void onDestroy() {
+            super.onDestroy();
+            if (mAdapter != null)
+                  mAdapter.weakRecyclerView.clear();
+            mAdapter = null;
+            layoutManager = null;
+            builder = null;
+            context = null;
       }
 }

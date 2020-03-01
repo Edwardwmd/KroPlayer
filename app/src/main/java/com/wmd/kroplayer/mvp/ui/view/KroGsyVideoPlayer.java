@@ -1,7 +1,9 @@
 package com.wmd.kroplayer.mvp.ui.view;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.Matrix;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.Surface;
 import android.view.View;
@@ -64,8 +66,22 @@ public class KroGsyVideoPlayer extends StandardGSYVideoPlayer {
       protected void init(Context context) {
             super.init(context);
             initView();
+
+      }
+
+
+      private void initView() {
+            mMoreScale = (TextView) findViewById(R.id.moreScale);
+            mChangeRotate = (ImageView) findViewById(R.id.change_rotate);
+            mChangeTransform = (ImageView) findViewById(R.id.change_transform);
+            mPlaySpeedTims = (TextView) findViewById(R.id.tv_play_speed_times);
+            mPlayTimesUp = (TextView) findViewById(R.id.tv_play_times_up);
+            mPlayTimesDown = (TextView) findViewById(R.id.tv_play_times_down);
+
+            titleTextShowAndHide();
+            mThumbImageViewLayout.setVisibility(VISIBLE);
             setSpeed(1.0f);
-            mPlaySpeedTims.setText("1.0x");
+            mPlaySpeedTims.setText(R.string.text_play_speed_three);
             mMoreScale.setOnClickListener(v -> {
                   if (!mHadPlay) {
                         return;
@@ -117,22 +133,22 @@ public class KroGsyVideoPlayer extends StandardGSYVideoPlayer {
                   }
                   if (getSpeed() == 0.5f) {
                         setSpeed(0.75f);
-                        mPlaySpeedTims.setText("0.75x");
+                        mPlaySpeedTims.setText(R.string.text_play_speed_two);
                   } else if (getSpeed() == 0.75f) {
                         setSpeed(1.0f);
-                        mPlaySpeedTims.setText("1.0x");
+                        mPlaySpeedTims.setText(R.string.text_play_speed_three);
                   } else if (getSpeed() == 1.0f) {
                         setSpeed(1.25f);
-                        mPlaySpeedTims.setText("1.25x");
+                        mPlaySpeedTims.setText(R.string.text_play_speed_four);
                   } else if (getSpeed() == 1.25f) {
                         setSpeed(1.5f);
-                        mPlaySpeedTims.setText("1.5x");
+                        mPlaySpeedTims.setText(R.string.text_play_speed_five);
                   } else if (getSpeed() == 1.5f) {
                         setSpeed(1.75f);
-                        mPlaySpeedTims.setText("1.75x");
+                        mPlaySpeedTims.setText(R.string.text_play_speed_six);
                   } else if (getSpeed() == 1.75f) {
                         setSpeed(2.0f);
-                        mPlaySpeedTims.setText("2.0x");
+                        mPlaySpeedTims.setText(R.string.text_play_speed_seven);
                   }
             });
 
@@ -143,36 +159,25 @@ public class KroGsyVideoPlayer extends StandardGSYVideoPlayer {
 
                   if (getSpeed() == 2.0f) {
                         setSpeed(1.75f);
-                        mPlaySpeedTims.setText("1.75x");
+                        mPlaySpeedTims.setText(R.string.text_play_speed_six);
                   } else if (getSpeed() == 1.75f) {
                         setSpeed(1.5f);
-                        mPlaySpeedTims.setText("1.5x");
+                        mPlaySpeedTims.setText(R.string.text_play_speed_five);
                   } else if (getSpeed() == 1.5f) {
                         setSpeed(1.25f);
-                        mPlaySpeedTims.setText("1.25x");
+                        mPlaySpeedTims.setText(R.string.text_play_speed_four);
                   } else if (getSpeed() == 1.25f) {
                         setSpeed(1.0f);
-                        mPlaySpeedTims.setText("1.0x");
+                        mPlaySpeedTims.setText(R.string.text_play_speed_three);
                   } else if (getSpeed() == 1.0f) {
                         setSpeed(0.75f);
-                        mPlaySpeedTims.setText("0.75x");
+                        mPlaySpeedTims.setText(R.string.text_play_speed_two);
                   } else if (getSpeed() == 0.75f) {
                         setSpeed(0.5f);
-                        mPlaySpeedTims.setText("0.5x");
+                        mPlaySpeedTims.setText(R.string.text_play_speed_one);
                   }
             });
 
-      }
-
-
-      private void initView() {
-            mMoreScale = (TextView) findViewById(R.id.moreScale);
-            mChangeRotate = (ImageView) findViewById(R.id.change_rotate);
-            mChangeTransform = (ImageView) findViewById(R.id.change_transform);
-            mPlaySpeedTims = (TextView) findViewById(R.id.tv_play_speed_times);
-            mPlayTimesUp = (TextView) findViewById(R.id.tv_play_times_up);
-            mPlayTimesDown = (TextView) findViewById(R.id.tv_play_times_down);
-            mPlaytimesLayout = findViewById(R.id.play_times_layout);
       }
 
 
@@ -387,5 +392,19 @@ public class KroGsyVideoPlayer extends StandardGSYVideoPlayer {
             setViewShowState(mPlaytimesLayout, INVISIBLE);
       }
 
+      /**
+       * 非全屏状态下设置Title隐藏
+       */
+      private void titleTextShowAndHide() {
+            if (isIfCurrentIsFullscreen()) {
+                  mTitleTextView.setVisibility(VISIBLE);
+                  mBackButton.setVisibility(VISIBLE);
+
+            } else {
+                  mTitleTextView.setVisibility(GONE);
+                  mBackButton.setVisibility(GONE);
+
+            }
+      }
 
 }

@@ -6,7 +6,7 @@ import android.graphics.Bitmap;
  * Author:  Edwardwmd
  * E-mail:  1732141816wmd @ gmail.com
  * Link:    https://github.com/Edwardwmd
- * Data:    2020/2/1812
+ * Data:    2020/2/18
  * Version: 1.0.0
  * Desc:    videoInfoBean
  */
@@ -23,8 +23,6 @@ public class VideoInfoBean {
       private String path;
       //视频截图路径
       private String thumbPath;
-//      //视频截图
-//      private Bitmap bitmap;
 
       public VideoInfoBean() {
 
@@ -89,16 +87,6 @@ public class VideoInfoBean {
 
             this.thumbPath = thumbPath;
       }
-
-//      public Bitmap getBitmap() {
-//
-//            return bitmap;
-//      }
-//
-//      public void setBitmap(Bitmap bitmap) {
-//
-//            this.bitmap = bitmap;
-//      }
 
       @Override
       public String toString() {

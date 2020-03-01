@@ -2,6 +2,8 @@ package com.wmd.kroplayer.utils;
 
 import android.net.Uri;
 
+import androidx.annotation.StringRes;
+
 /**
  * Author:  Edwardwmd
  * E-mail:  1732141816wmd @ gmail.com
@@ -18,6 +20,15 @@ public class StringsUtils {
 
       public static Uri StringToUri(String path) {
             return Uri.parse(path);
+      }
+
+      /**
+       * 获取values String并转换成String
+       * @param stringRes  string res
+       * @return String
+       */
+      public static String getString(@StringRes int stringRes){
+            return String.valueOf(stringRes);
       }
 
 }
