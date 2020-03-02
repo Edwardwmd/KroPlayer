@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
@@ -11,19 +12,21 @@ android {
         versionName '1.0.0'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
+        //dex分包支持
         multiDexEnabled true
-
+        //设置支持的SO库架构
         ndk {
-            //设置支持的SO库架构
             abiFilters 'armeabi', 'armeabi-v7a', 'x86'
         }
     }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -91,9 +94,10 @@ dependencies {
     api 'com.android.support:multidex:1.0.3'
 
     //GSYVideoplayer
-    implementation 'com.shuyu:gsyVideoPlayer-java:7.1.2'
+    api 'com.shuyu:gsyVideoPlayer-java:7.1.2'
     //解决部分视频有画面无声音或者不支持avi等格式的ijkplayer SO库
-    implementation 'com.shuyu:gsyVideoPlayer-ex_so:7.1.2'
-
+    api 'com.shuyu:gsyVideoPlayer-ex_so:7.1.2'
+    //greenDao
+    api 'org.greenrobot:greendao:3.2.2' // add library
 
 }

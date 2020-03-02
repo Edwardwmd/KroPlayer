@@ -30,18 +30,19 @@ import com.wmd.kroplayer.R;
 public class KroGsyVideoPlayer extends StandardGSYVideoPlayer {
 
       //设置比例
-      private TextView mMoreScale;
+      protected TextView mMoreScale;
       //设置翻转
-      private ImageView mChangeRotate;
+      protected ImageView mChangeRotate;
       //设置镜像
-      private ImageView mChangeTransform;
+      protected ImageView mChangeTransform;
       //设置倍速播放Text
-      private TextView mPlaySpeedTims;
+      protected TextView mPlaySpeedTims;
       //设置增加倍速
-      private TextView mPlayTimesUp;
+      protected TextView mPlayTimesUp;
       //设置递减倍速
-      private TextView mPlayTimesDown;
-      private ConstraintLayout mPlaytimesLayout;
+      protected TextView mPlayTimesDown;
+
+      protected ConstraintLayout mPlaytimesLayout;
       //记住切换数据源类型
       private int mType = 0;
 
@@ -66,9 +67,7 @@ public class KroGsyVideoPlayer extends StandardGSYVideoPlayer {
       protected void init(Context context) {
             super.init(context);
             initView();
-
       }
-
 
       private void initView() {
             mMoreScale = (TextView) findViewById(R.id.moreScale);
@@ -77,11 +76,10 @@ public class KroGsyVideoPlayer extends StandardGSYVideoPlayer {
             mPlaySpeedTims = (TextView) findViewById(R.id.tv_play_speed_times);
             mPlayTimesUp = (TextView) findViewById(R.id.tv_play_times_up);
             mPlayTimesDown = (TextView) findViewById(R.id.tv_play_times_down);
+            mPlaytimesLayout = (ConstraintLayout) findViewById(R.id.play_times_layout);
 
-            titleTextShowAndHide();
-            mThumbImageViewLayout.setVisibility(VISIBLE);
-            setSpeed(1.0f);
-            mPlaySpeedTims.setText(R.string.text_play_speed_three);
+
+            initplaySpeedTimes();
             mMoreScale.setOnClickListener(v -> {
                   if (!mHadPlay) {
                         return;
@@ -327,20 +325,21 @@ public class KroGsyVideoPlayer extends StandardGSYVideoPlayer {
 
       @Override
       protected void changeUiToNormal() {
-            setViewShowState(mPlaytimesLayout, INVISIBLE);
-
+            super.changeUiToNormal();
+            setViewShowState(mThumbImageViewLayout, VISIBLE);
+            layoutShowAndHide();
       }
 
       @Override
       protected void changeUiToPlayingShow() {
             super.changeUiToPlayingShow();
-            setViewShowState(mPlaytimesLayout, VISIBLE);
+            layoutShowAndHide();
       }
 
       @Override
       protected void changeUiToPreparingShow() {
             super.changeUiToPreparingShow();
-            setViewShowState(mPlaytimesLayout, VISIBLE);
+            layoutShowAndHide();
       }
 
       @Override
@@ -352,13 +351,13 @@ public class KroGsyVideoPlayer extends StandardGSYVideoPlayer {
       @Override
       protected void changeUiToPauseShow() {
             super.changeUiToPauseShow();
-            setViewShowState(mPlaytimesLayout, VISIBLE);
+            layoutShowAndHide();
       }
 
       @Override
       protected void changeUiToPlayingBufferingShow() {
             super.changeUiToPlayingBufferingShow();
-            setViewShowState(mPlaytimesLayout, VISIBLE);
+            layoutShowAndHide();
 
       }
 
@@ -371,7 +370,8 @@ public class KroGsyVideoPlayer extends StandardGSYVideoPlayer {
       @Override
       protected void changeUiToCompleteShow() {
             super.changeUiToCompleteShow();
-            setViewShowState(mPlaytimesLayout, VISIBLE);
+            layoutShowAndHide();
+
       }
 
       @Override
@@ -393,18 +393,90 @@ public class KroGsyVideoPlayer extends StandardGSYVideoPlayer {
       }
 
       /**
-       * 非全屏状态下设置Title隐藏
+       * 非全屏状态下设置控件隐藏或显示
        */
-      private void titleTextShowAndHide() {
+      private void layoutShowAndHide() {
+
             if (isIfCurrentIsFullscreen()) {
-                  mTitleTextView.setVisibility(VISIBLE);
-                  mBackButton.setVisibility(VISIBLE);
+                  setViewShowState(mPlaytimesLayout, VISIBLE);
+                  setViewShowState(mTitleTextView, VISIBLE);
+                  setViewShowState(mBackButton, VISIBLE);
+                  setViewShowState(mChangeRotate, VISIBLE);
+                  setViewShowState(mChangeTransform, VISIBLE);
+                  setViewShowState(mMoreScale, VISIBLE);
 
             } else {
-                  mTitleTextView.setVisibility(GONE);
-                  mBackButton.setVisibility(GONE);
-
+                  setViewShowState(mPlaytimesLayout, INVISIBLE);
+                  setViewShowState(mTitleTextView, INVISIBLE);
+                  setViewShowState(mBackButton, INVISIBLE);
+                  setViewShowState(mChangeRotate, INVISIBLE);
+                  setViewShowState(mChangeTransform, INVISIBLE);
+                  setViewShowState(mMoreScale, INVISIBLE);
             }
+      }
+
+      /**
+       * 初始化倍速播放
+       */
+      private void initplaySpeedTimes() {
+            setSpeed(1.0f);
+            mPlaySpeedTims.setText("1.0x");
+      }
+
+      public TextView getmMoreScale() {
+            return mMoreScale;
+      }
+
+      public void setmMoreScale(TextView mMoreScale) {
+            this.mMoreScale = mMoreScale;
+      }
+
+      public ImageView getmChangeRotate() {
+            return mChangeRotate;
+      }
+
+      public void setmChangeRotate(ImageView mChangeRotate) {
+            this.mChangeRotate = mChangeRotate;
+      }
+
+      public ImageView getmChangeTransform() {
+            return mChangeTransform;
+      }
+
+      public void setmChangeTransform(ImageView mChangeTransform) {
+            this.mChangeTransform = mChangeTransform;
+      }
+
+      public TextView getmPlaySpeedTims() {
+            return mPlaySpeedTims;
+      }
+
+      public void setmPlaySpeedTims(TextView mPlaySpeedTims) {
+            this.mPlaySpeedTims = mPlaySpeedTims;
+      }
+
+      public TextView getmPlayTimesUp() {
+            return mPlayTimesUp;
+      }
+
+      public void setmPlayTimesUp(TextView mPlayTimesUp) {
+            this.mPlayTimesUp = mPlayTimesUp;
+      }
+
+      public TextView getmPlayTimesDown() {
+            return mPlayTimesDown;
+      }
+
+      public void setmPlayTimesDown(TextView mPlayTimesDown) {
+            this.mPlayTimesDown = mPlayTimesDown;
+      }
+
+      public ConstraintLayout getmPlaytimesLayout() {
+            return mPlaytimesLayout;
+      }
+
+      public void setmPlaytimesLayout(ConstraintLayout mPlaytimesLayout) {
+            this.mPlaytimesLayout = mPlaytimesLayout;
       }
 
 }

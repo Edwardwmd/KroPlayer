@@ -24,6 +24,7 @@ import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 import com.wmd.kroplayer.App;
 import com.wmd.kroplayer.R;
 import com.wmd.kroplayer.base.BaseKroGSYVideoActivity;
+import com.wmd.kroplayer.di.scope.ActivityScope;
 import com.wmd.kroplayer.mvp.ui.view.KroGsyVideoPlayer;
 import com.wmd.kroplayer.utils.AppUtils;
 
@@ -45,6 +46,7 @@ import static com.wmd.kroplayer.utils.ContractUtils.VIDEO_PLAYE_THUM;
  * Version: 1.0.0
  * Desc:    VideoPlayActivity
  */
+@ActivityScope
 public class VideoPlayActivity extends BaseKroGSYVideoActivity<StandardGSYVideoPlayer> {
 
       @BindView(R.id.kro_gsyplayer)
@@ -86,13 +88,14 @@ public class VideoPlayActivity extends BaseKroGSYVideoActivity<StandardGSYVideoP
             return false;
       }
 
+
       @Override
-      protected int getLayoutRes() {
+      public int initView(@Nullable Bundle savedInstanceState) {
             return R.layout.activity_videoplay;
       }
 
       @Override
-      protected void initData(@Nullable Bundle savedInstanceState) {
+      public void initData(@Nullable Bundle savedInstanceState) {
             Intent intent = getIntent();
             if (intent != null) {
                   Bundle extras = intent.getExtras();

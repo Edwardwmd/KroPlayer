@@ -1,10 +1,8 @@
 package com.wmd.kroplayer.mvp.ui.fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -14,7 +12,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chad.library.adapter.base.listener.OnItemLongClickListener;
-import com.orhanobut.logger.Logger;
 import com.wmd.kroplayer.App;
 import com.wmd.kroplayer.R;
 import com.wmd.kroplayer.adapter.PullToRefreshAdapter;
@@ -23,7 +20,6 @@ import com.wmd.kroplayer.di.component.DaggerMainVideoComponent;
 import com.wmd.kroplayer.mvp.contract.MainVideoContract;
 import com.wmd.kroplayer.mvp.presenter.MainVideoPresenter;
 import com.wmd.kroplayer.mvp.ui.activity.MainActivity;
-import com.wmd.kroplayer.mvp.ui.activity.VideoPlayActivity;
 import com.wmd.kroplayer.utils.AppUtils;
 import com.wmd.kroplayer.utils.FileUtils;
 import com.wmd.kroplayer.utils.JumpUtils;
@@ -32,10 +28,6 @@ import com.wmd.kroplayer.utils.StringsUtils;
 import javax.inject.Inject;
 
 import butterknife.BindView;
-
-import static com.wmd.kroplayer.utils.ContractUtils.VIDEO_PLAYE_NAME;
-import static com.wmd.kroplayer.utils.ContractUtils.VIDEO_PLAYE_PATH;
-import static com.wmd.kroplayer.utils.ContractUtils.VIDEO_PLAYE_THUM;
 
 
 /**
@@ -107,6 +99,7 @@ public class MainVideoFragment extends BaseFragment<MainVideoPresenter> implemen
                     view.findViewById(R.id.iv_video_thum),
                     mAdapter.getVideoInfoBeanList().get(position),
                     StringsUtils.getString(R.string.text_transition_share_image));
+
       }
 
       @Override

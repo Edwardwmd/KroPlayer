@@ -3,6 +3,7 @@ package com.wmd.kroplayer.base;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.InflateException;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -16,6 +17,9 @@ import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
 import com.shuyu.gsyvideoplayer.listener.VideoAllCallBack;
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
 import com.shuyu.gsyvideoplayer.video.base.GSYBaseVideoPlayer;
+import com.trello.rxlifecycle3.components.RxActivity;
+import com.trello.rxlifecycle3.components.support.RxAppCompatActivity;
+import com.wmd.kroplayer.utils.AppUtils;
 import com.wmd.kroplayer.utils.JumpUtils;
 
 
@@ -30,7 +34,7 @@ import butterknife.Unbinder;
  * Version: 1.0.0
  * Desc:    BaseKroGSYVideoActivity
  */
-public abstract class BaseKroGSYVideoActivity<T extends GSYBaseVideoPlayer> extends AppCompatActivity implements VideoAllCallBack {
+public abstract class BaseKroGSYVideoActivity<T extends GSYBaseVideoPlayer> extends RxAppCompatActivity implements VideoAllCallBack, IActivity {
 
       protected boolean isPlay;
 
@@ -52,8 +56,18 @@ public abstract class BaseKroGSYVideoActivity<T extends GSYBaseVideoPlayer> exte
                           WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             }
             super.onCreate(savedInstanceState);
-            setContentView(getLayoutRes());
-            unbinder = ButterKnife.bind(this);
+            try {
+                  int layoutRes = initView(savedInstanceState);
+                  if (layoutRes != 0) {
+                        setContentView(layoutRes);
+                        unbinder = ButterKnife.bind(this);
+
+                  }
+
+            } catch (Exception e) {
+                  if (e instanceof InflateException) throw e;
+                  e.printStackTrace();
+            }
             initData(savedInstanceState);
 
       }
@@ -107,7 +121,6 @@ public abstract class BaseKroGSYVideoActivity<T extends GSYBaseVideoPlayer> exte
                   Logger.e("全屏开!!!!!!!!!!!!");
                   return;
             }
-//            JumpUtils.LauncherToMain(this);
             super.onBackPressed();
       }
 
@@ -212,7 +225,11 @@ public abstract class BaseKroGSYVideoActivity<T extends GSYBaseVideoPlayer> exte
 
       @Override
       public void onAutoComplete(String url, Object... objects) {
-
+            if (getGSYVideoPlayer().isIfCurrentIsFullscreen()) {
+                  //播放完成后退出全屏
+                  getGSYVideoPlayer().onBackFullscreen();
+                  getGSYVideoPlayer().setIfCurrentIsFullscreen(false);
+            }
       }
 
       @Override
@@ -308,7 +325,4 @@ public abstract class BaseKroGSYVideoActivity<T extends GSYBaseVideoPlayer> exte
             return false;
       }
 
-      protected abstract int getLayoutRes();
-
-      protected abstract void initData(@Nullable Bundle savedInstanceState);
 }
