@@ -1,10 +1,12 @@
 package com.wmd.kroplayer.mvp.presenter;
 
 import android.annotation.SuppressLint;
+import android.view.ViewGroup;
 
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.OnLifecycleEvent;
 
+import com.wmd.kroplayer.R;
 import com.wmd.kroplayer.adapter.PullToRefreshAdapter;
 import com.wmd.kroplayer.base.BasePresenter;
 import com.wmd.kroplayer.bean.VideoInfoBean;
@@ -73,8 +75,12 @@ public class MainVideoPresenter extends BasePresenter<MainVideoContract.Model, M
                     .subscribe(videoInfoBeanList -> {
                           if (true) videoInfoBeans.clear();//如果是下拉刷新则清空列表
                           preEndIndex = videoInfoBeans.size();//更新之前列表总长度,用于确定加载更多的起始位置
-                          videoInfoBeans.addAll(videoInfoBeanList);
-//                          Logger.e("数据------------>"+videoInfoBeanList.toString());
+                          if (videoInfoBeanList != null && videoInfoBeanList.size() > 0) {
+                                videoInfoBeans.addAll(videoInfoBeanList);
+                          } else {
+                               mView.setLoadingEmptyView();
+                          }
+
                           if (true)
                                 mAdapter.notifyDataSetChanged();
                           else

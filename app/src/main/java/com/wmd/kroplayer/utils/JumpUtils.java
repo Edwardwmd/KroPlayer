@@ -14,6 +14,7 @@ import com.wmd.kroplayer.bean.VideoInfoBean;
 import com.wmd.kroplayer.mvp.ui.activity.MainActivity;
 import com.wmd.kroplayer.mvp.ui.activity.VideoPlayActivity;
 
+import static com.wmd.kroplayer.utils.ContractUtils.LOCAL_VIDEO_INFO;
 import static com.wmd.kroplayer.utils.ContractUtils.VIDEO_PLAYE_NAME;
 import static com.wmd.kroplayer.utils.ContractUtils.VIDEO_PLAYE_PATH;
 import static com.wmd.kroplayer.utils.ContractUtils.VIDEO_PLAYE_THUM;
@@ -58,11 +59,7 @@ public class JumpUtils {
       public static void JumpToVideoPlay(Activity activity, View view, VideoInfoBean videoInfoBean, String sharedElementName) {
             Intent intent = new Intent(activity, VideoPlayActivity.class);
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                  Bundle bundle = new Bundle();
-                  bundle.putString(VIDEO_PLAYE_PATH, videoInfoBean.getPath());
-                  bundle.putString(VIDEO_PLAYE_THUM, videoInfoBean.getThumbPath());
-                  bundle.putString(VIDEO_PLAYE_NAME, videoInfoBean.getVideoName());
-                  intent.putExtras(bundle);
+                  intent.putExtra(LOCAL_VIDEO_INFO,videoInfoBean);
                   ActivityOptionsCompat activityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(
                           activity, view, sharedElementName);
                   activity.startActivity(intent, activityOptions.toBundle());

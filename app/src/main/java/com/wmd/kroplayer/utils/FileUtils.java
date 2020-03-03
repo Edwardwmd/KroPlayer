@@ -112,7 +112,8 @@ public class FileUtils {
 
       /**
        * 删除SD卡内本地视频并使用广播更新数据
-       * @param context 上下文
+       *
+       * @param context         上下文
        * @param loacalVideoPath 本地视频路径
        * @return
        */
@@ -120,5 +121,15 @@ public class FileUtils {
             return context.getContentResolver().delete(MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
                     MediaStore.Video.Media.DATA + "= \"" + loacalVideoPath + "\"",
                     null);
+      }
+
+      /**
+       * 截取视频的格式
+       *
+       * @param localPath 本地视频路径
+       * @return 视频格式
+       */
+      public static String checkVideoType(String localPath) {
+            return localPath.substring(localPath.lastIndexOf(".") + 1).toLowerCase();
       }
 }

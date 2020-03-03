@@ -8,4 +8,11 @@
         <!--        共享元素转场动画必须添加 -> 至少需要sdk21 -->
         <item name="android:windowContentTransitions">true</item>
     </style>
+
+    <style name="bg">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/bg</item>
+        <item name="android:orientation">vertical</item>
+    </style>
 </resources>

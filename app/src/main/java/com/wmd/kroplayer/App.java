@@ -3,8 +3,10 @@ package com.wmd.kroplayer;
 import android.app.Application;
 
 import androidx.multidex.MultiDex;
+import androidx.multidex.MultiDexApplication;
 
 
+import com.bumptech.glide.Glide;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
 import com.shuyu.gsyvideoplayer.player.IjkPlayerManager;
@@ -22,13 +24,12 @@ import com.wmd.kroplayer.di.component.DaggerAppComponent;
  * Version: 1.0.0
  * Desc:    App
  */
-public class App extends Application {
+public class App extends MultiDexApplication {
       public static App instance;
       public static AppComponent mAppComponent;
 
       @Override
       public void onCreate() {
-
             super.onCreate();
             instance = this;
             if (mAppComponent == null) {
@@ -50,16 +51,15 @@ public class App extends Application {
 
       @Override
       public void onTerminate() {
-
             super.onTerminate();
             if (mAppComponent != null)
                   mAppComponent = null;
             instance = null;
-
-
+            Glide.get(this).clearDiskCache();
+            Glide.get(this).clearMemory();
       }
 
-      public static AppComponent getAppComponent(){
+      public static AppComponent getAppComponent() {
             return mAppComponent;
       }
 }

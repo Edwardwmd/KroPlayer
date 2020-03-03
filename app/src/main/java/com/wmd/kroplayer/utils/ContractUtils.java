@@ -22,5 +22,7 @@ public class ContractUtils {
       //播放文件名
       public static final String VIDEO_PLAYE_NAME = "KROPALYER_VIDEO_PLAYE_NAME";
 
+      public static final String LOCAL_VIDEO_INFO = "KROPLAYER_LOCAL_VIDEO_INFO";
+
 
 }

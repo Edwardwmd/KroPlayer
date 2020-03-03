@@ -12,12 +12,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 
 import com.shuyu.gsyvideoplayer.utils.GSYVideoType;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 import com.shuyu.gsyvideoplayer.video.base.GSYBaseVideoPlayer;
 import com.shuyu.gsyvideoplayer.video.base.GSYVideoPlayer;
 import com.wmd.kroplayer.R;
+
+import tv.danmaku.ijk.media.player.ffmpeg.FFmpegApi;
 
 /**
  * Author:  Edwardwmd
@@ -41,12 +44,27 @@ public class KroGsyVideoPlayer extends StandardGSYVideoPlayer {
       protected TextView mPlayTimesUp;
       //设置递减倍速
       protected TextView mPlayTimesDown;
-
       protected ConstraintLayout mPlaytimesLayout;
-      //记住切换数据源类型
-      private int mType = 0;
-
-      private int mTransformSize = 0;
+      //默认屏幕状态
+      private static final int SCREEN_SCALE_DEFAULT = 0;
+      //16:9屏幕状态
+      private static final int SCREEN_SCALE_16_9 = 1;
+      //4:3屏幕状态
+      private static final int SCREEN_SCALE_4_3 = 2;
+      //全屏状态
+      private static final int SCREEN_SCALE_FULL = 3;
+      //拉伸全屏状态
+      private static final int SCREEN_SCALE_MATCH_FULL = 4;
+      //屏幕默认镜像
+      private static final int TRANSFORM_SIZE_DEFAULT = 0;
+      // 屏幕左右镜像
+      private static final int TRANSFORM_SIZE_LEFT_RIGHT = 1;
+      //屏幕上下镜像
+      private static final int TRANSFORM_SIZE_TOP_BOTTOM = 2;
+      //切换屏幕镜像状态flag
+      private int mTransformSize = TRANSFORM_SIZE_DEFAULT;
+      //切换不同屏幕大小状态flag
+      private int mType = SCREEN_SCALE_DEFAULT;
       //数据源
       private int mSourcePosition = 0;
 
@@ -66,10 +84,10 @@ public class KroGsyVideoPlayer extends StandardGSYVideoPlayer {
       @Override
       protected void init(Context context) {
             super.init(context);
-            initView();
+            initView(context);
       }
 
-      private void initView() {
+      private void initView(Context context) {
             mMoreScale = (TextView) findViewById(R.id.moreScale);
             mChangeRotate = (ImageView) findViewById(R.id.change_rotate);
             mChangeTransform = (ImageView) findViewById(R.id.change_transform);
@@ -78,22 +96,22 @@ public class KroGsyVideoPlayer extends StandardGSYVideoPlayer {
             mPlayTimesDown = (TextView) findViewById(R.id.tv_play_times_down);
             mPlaytimesLayout = (ConstraintLayout) findViewById(R.id.play_times_layout);
 
-
+            setDialogProgressColor(ContextCompat.getColor(context,R.color.colorPrimary),ContextCompat.getColor(context,R.color.colorGary));
             initplaySpeedTimes();
             mMoreScale.setOnClickListener(v -> {
                   if (!mHadPlay) {
                         return;
                   }
-                  if (mType == 0) {
-                        mType = 1;
-                  } else if (mType == 1) {
-                        mType = 2;
-                  } else if (mType == 2) {
-                        mType = 3;
-                  } else if (mType == 3) {
-                        mType = 4;
-                  } else if (mType == 4) {
-                        mType = 0;
+                  if (mType == SCREEN_SCALE_DEFAULT) {
+                        mType = SCREEN_SCALE_16_9;
+                  } else if (mType == SCREEN_SCALE_16_9) {
+                        mType = SCREEN_SCALE_4_3;
+                  } else if (mType == SCREEN_SCALE_4_3) {
+                        mType = SCREEN_SCALE_FULL;
+                  } else if (mType == SCREEN_SCALE_FULL) {
+                        mType = SCREEN_SCALE_MATCH_FULL;
+                  } else if (mType == SCREEN_SCALE_MATCH_FULL) {
+                        mType = SCREEN_SCALE_DEFAULT;
                   }
                   resolveTypeUI();
             });
@@ -115,12 +133,12 @@ public class KroGsyVideoPlayer extends StandardGSYVideoPlayer {
                   if (!mHadPlay) {
                         return;
                   }
-                  if (mTransformSize == 0) {
-                        mTransformSize = 1;
-                  } else if (mTransformSize == 1) {
-                        mTransformSize = 2;
-                  } else if (mTransformSize == 2) {
-                        mTransformSize = 0;
+                  if (mTransformSize == TRANSFORM_SIZE_DEFAULT) {
+                        mTransformSize = TRANSFORM_SIZE_LEFT_RIGHT;
+                  } else if (mTransformSize == TRANSFORM_SIZE_LEFT_RIGHT) {
+                        mTransformSize = TRANSFORM_SIZE_TOP_BOTTOM;
+                  } else if (mTransformSize == TRANSFORM_SIZE_TOP_BOTTOM) {
+                        mTransformSize = TRANSFORM_SIZE_DEFAULT;
                   }
                   resolveTransform();
             });
@@ -192,20 +210,20 @@ public class KroGsyVideoPlayer extends StandardGSYVideoPlayer {
             if (!mHadPlay) {
                   return;
             }
-            if (mType == 1) {
-                  mMoreScale.setText("16:9");
+            if (mType == SCREEN_SCALE_16_9) {
+                  mMoreScale.setText(R.string.text_screen_scale_16_9);
                   GSYVideoType.setShowType(GSYVideoType.SCREEN_TYPE_16_9);
-            } else if (mType == 2) {
-                  mMoreScale.setText("4:3");
+            } else if (mType == SCREEN_SCALE_4_3) {
+                  mMoreScale.setText(R.string.text_screen_scale_4_3);
                   GSYVideoType.setShowType(GSYVideoType.SCREEN_TYPE_4_3);
-            } else if (mType == 3) {
-                  mMoreScale.setText("全屏");
+            } else if (mType == SCREEN_SCALE_FULL) {
+                  mMoreScale.setText(R.string.text_screen_scale_full);
                   GSYVideoType.setShowType(GSYVideoType.SCREEN_TYPE_FULL);
-            } else if (mType == 4) {
-                  mMoreScale.setText("拉伸全屏");
+            } else if (mType == SCREEN_SCALE_MATCH_FULL) {
+                  mMoreScale.setText(R.string.text_screen_scale_match_full);
                   GSYVideoType.setShowType(GSYVideoType.SCREEN_MATCH_FULL);
-            } else if (mType == 0) {
-                  mMoreScale.setText("默认比例");
+            } else if (mType == SCREEN_SCALE_DEFAULT) {
+                  mMoreScale.setText(R.string.text_screen_scale_default);
                   GSYVideoType.setShowType(GSYVideoType.SCREEN_TYPE_DEFAULT);
             }
             changeTextureViewShowType();
@@ -219,7 +237,7 @@ public class KroGsyVideoPlayer extends StandardGSYVideoPlayer {
        */
       protected void resolveTransform() {
             switch (mTransformSize) {
-                  case 1: {
+                  case TRANSFORM_SIZE_LEFT_RIGHT: {
                         Matrix transform = new Matrix();
                         transform.setScale(-1, 1, mTextureView.getWidth() / 2, 0);
                         mTextureView.setTransform(transform);
@@ -227,7 +245,7 @@ public class KroGsyVideoPlayer extends StandardGSYVideoPlayer {
                         mTextureView.invalidate();
                   }
                   break;
-                  case 2: {
+                  case TRANSFORM_SIZE_TOP_BOTTOM: {
                         Matrix transform = new Matrix();
                         transform.setScale(1, -1, 0, mTextureView.getHeight() / 2);
                         mTextureView.setTransform(transform);
@@ -235,7 +253,7 @@ public class KroGsyVideoPlayer extends StandardGSYVideoPlayer {
                         mTextureView.invalidate();
                   }
                   break;
-                  case 0: {
+                  case TRANSFORM_SIZE_DEFAULT: {
                         Matrix transform = new Matrix();
                         transform.setScale(1, 1, mTextureView.getWidth() / 2, 0);
                         mTextureView.setTransform(transform);
@@ -414,6 +432,7 @@ public class KroGsyVideoPlayer extends StandardGSYVideoPlayer {
                   setViewShowState(mMoreScale, INVISIBLE);
             }
       }
+
 
       /**
        * 初始化倍速播放

@@ -7,7 +7,9 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.MediaMetadataRetriever;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -73,5 +75,10 @@ public class PullToRefreshAdapter extends BaseQuickAdapter<VideoInfoBean, BaseVi
 
       public List<VideoInfoBean> getVideoInfoBeanList() {
             return videoInfoBeanList;
+      }
+
+      public void setEmptyView(int layoutResId, ViewGroup parent) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(layoutResId, parent, false);
+            setEmptyView(view);
       }
 }

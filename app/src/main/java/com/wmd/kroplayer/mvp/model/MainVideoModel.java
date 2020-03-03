@@ -39,7 +39,9 @@ public class MainVideoModel extends BaseModel implements MainVideoContract.Model
               MediaStore.Video.Media.DURATION,
               MediaStore.Video.Media.DATE_TAKEN,
               MediaStore.Video.Media.DATA,
-              MediaStore.Video.Thumbnails.DATA};
+              MediaStore.Video.Thumbnails.DATA,
+              MediaStore.Video.Media.HEIGHT,
+              MediaStore.Video.Media.WIDTH};
 
       /**
        * 获取本地所有视频信息
@@ -64,6 +66,8 @@ public class MainVideoModel extends BaseModel implements MainVideoContract.Model
                                     info.setTime(cursor.getLong(cursor.getColumnIndex(mediaColumns[4])));
                                     info.setPath(cursor.getString(cursor.getColumnIndex(mediaColumns[5])));
                                     info.setThumbPath(cursor.getString(cursor.getColumnIndex(mediaColumns[6])));
+                                    info.setVideoHigh(cursor.getLong(cursor.getColumnIndex(mediaColumns[7])));
+                                    info.setVideoWidth(cursor.getLong(cursor.getColumnIndex(mediaColumns[8])));
                                     videoInfoBeans.add(info);
 
                               } while (cursor.moveToNext());
@@ -72,7 +76,7 @@ public class MainVideoModel extends BaseModel implements MainVideoContract.Model
                         emitter.onNext(videoInfoBeans);
                         emitter.onComplete();
                   } catch (Exception e) {
-                        Logger.e("AppDataManager--->getLocalAllVideo()", e);
+                        Logger.e("AppDataManager--->getLocalAllVideo()", e.toString());
                   } finally {
                         if (cursor != null)
                               cursor.close();

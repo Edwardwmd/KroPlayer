@@ -4,6 +4,8 @@ import android.net.Uri;
 
 import androidx.annotation.StringRes;
 
+import com.wmd.kroplayer.App;
+
 /**
  * Author:  Edwardwmd
  * E-mail:  1732141816wmd @ gmail.com
@@ -28,7 +30,7 @@ public class StringsUtils {
        * @return String
        */
       public static String getString(@StringRes int stringRes){
-            return String.valueOf(stringRes);
+            return App.instance.getString(stringRes);
       }
 
 }

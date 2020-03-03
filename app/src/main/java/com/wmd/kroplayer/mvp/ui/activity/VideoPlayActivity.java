@@ -1,41 +1,31 @@
 package com.wmd.kroplayer.mvp.ui.activity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
-import android.media.MediaMetadataRetriever;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityOptionsCompat;
+import androidx.cardview.widget.CardView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
-import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
-import com.bumptech.glide.request.RequestOptions;
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
-import com.wmd.kroplayer.App;
 import com.wmd.kroplayer.R;
 import com.wmd.kroplayer.base.BaseKroGSYVideoActivity;
-import com.wmd.kroplayer.di.scope.ActivityScope;
+import com.wmd.kroplayer.bean.VideoInfoBean;
 import com.wmd.kroplayer.mvp.ui.view.KroGsyVideoPlayer;
 import com.wmd.kroplayer.utils.AppUtils;
-
-import java.security.MessageDigest;
+import com.wmd.kroplayer.utils.FileSizeUtil;
+import com.wmd.kroplayer.utils.FileUtils;
+import com.wmd.kroplayer.utils.TimeUtils;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
-import static com.bumptech.glide.load.resource.bitmap.VideoDecoder.FRAME_OPTION;
-import static com.wmd.kroplayer.utils.ContractUtils.VIDEO_PLAYE_NAME;
-import static com.wmd.kroplayer.utils.ContractUtils.VIDEO_PLAYE_PATH;
-import static com.wmd.kroplayer.utils.ContractUtils.VIDEO_PLAYE_THUM;
+import static com.wmd.kroplayer.utils.ContractUtils.LOCAL_VIDEO_INFO;
 
 
 /**
@@ -46,15 +36,24 @@ import static com.wmd.kroplayer.utils.ContractUtils.VIDEO_PLAYE_THUM;
  * Version: 1.0.0
  * Desc:    VideoPlayActivity
  */
-@ActivityScope
 public class VideoPlayActivity extends BaseKroGSYVideoActivity<StandardGSYVideoPlayer> {
 
       @BindView(R.id.kro_gsyplayer)
       KroGsyVideoPlayer kroGsyplayer;
-      private String path;
-      private String thumPath;
-      private String videoName;
+      @BindView(R.id.tv_play_video_name)
+      TextView tvPlayVideoName;
+      @BindView(R.id.tv_video_size)
+      TextView tvVideoSize;
+      @BindView(R.id.tv_create_video_date)
+      TextView tvCreateVideoDate;
+      @BindView(R.id.tv_video_formality)
+      TextView tvVideoFormality;
+      @BindView(R.id.tv_video_highwidth)
+      TextView tvVideoHighwidth;
+      @BindView(R.id.cv_video_info)
+      CardView cvVideoInfo;
       private ImageView thum;
+      private VideoInfoBean videoInfoBean;
 
 
       @Override
@@ -67,9 +66,9 @@ public class VideoPlayActivity extends BaseKroGSYVideoActivity<StandardGSYVideoP
 
             return new GSYVideoOptionBuilder()
                     .setThumbImageView(thum)
-                    .setUrl(path)
+                    .setUrl(videoInfoBean.getPath())
                     .setCacheWithPlay(true)
-                    .setVideoTitle(videoName)
+                    .setVideoTitle(videoInfoBean.getVideoName())
                     .setIsTouchWiget(true)
                     .setRotateViewAuto(false)
                     .setLockLand(true)
@@ -96,15 +95,22 @@ public class VideoPlayActivity extends BaseKroGSYVideoActivity<StandardGSYVideoP
 
       @Override
       public void initData(@Nullable Bundle savedInstanceState) {
-            Intent intent = getIntent();
-            if (intent != null) {
-                  Bundle extras = intent.getExtras();
-                  path = extras.getString(VIDEO_PLAYE_PATH);
-                  thumPath = extras.getString(VIDEO_PLAYE_THUM);
-                  videoName = extras.getString(VIDEO_PLAYE_NAME);
-            }
+            loadView();
             loadCover();
             initVideoBuilderMode();
+      }
+
+      private void loadView() {
+            Intent intent = getIntent();
+            if (intent != null) {
+                  videoInfoBean = intent.getParcelableExtra(LOCAL_VIDEO_INFO);
+            }
+
+            tvPlayVideoName.setText(videoInfoBean.getVideoName());
+            tvVideoHighwidth.setText(videoInfoBean.getVideoWidth()+"X"+videoInfoBean.getVideoHigh());
+            tvVideoSize.setText(FileSizeUtil.FormetFileSize(videoInfoBean.getVideoSize()));
+            tvCreateVideoDate.setText(TimeUtils.getFormatedDateTime("yyyy-MM-dd", videoInfoBean.getTime()));
+            tvVideoFormality.setText(FileUtils.checkVideoType(videoInfoBean.getPath()));
       }
 
       private void loadCover() {
@@ -114,7 +120,7 @@ public class VideoPlayActivity extends BaseKroGSYVideoActivity<StandardGSYVideoP
                   thum.setTransitionName(String.valueOf(R.string.text_transition_share_image));
             }
             thum.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            AppUtils.loadVideoScreenshot(this, thumPath, thum, 350000000);
+            AppUtils.loadVideoScreenshot(this, videoInfoBean.getThumbPath(), thum, 350000000);
       }
 
 
@@ -153,5 +159,12 @@ public class VideoPlayActivity extends BaseKroGSYVideoActivity<StandardGSYVideoP
                   kroGsyplayer = null;
             }
 
+      }
+
+      @Override
+      protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            // TODO: add setContentView(...) invocation
+            ButterKnife.bind(this);
       }
 }

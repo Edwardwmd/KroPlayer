@@ -3,6 +3,7 @@ package com.wmd.kroplayer.mvp.ui.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -38,7 +39,10 @@ import butterknife.BindView;
  * Version: 1.0.0
  * Desc:    MainVideoFragment
  */
-public class MainVideoFragment extends BaseFragment<MainVideoPresenter> implements MainVideoContract.View, SwipeRefreshLayout.OnRefreshListener, OnItemLongClickListener, OnItemClickListener {
+public class MainVideoFragment extends BaseFragment<MainVideoPresenter> implements MainVideoContract.View,
+        SwipeRefreshLayout.OnRefreshListener,
+        OnItemLongClickListener,
+        OnItemClickListener {
 
       @BindView(R.id.rcv_video)
       RecyclerView rcvVideo;
@@ -51,10 +55,17 @@ public class MainVideoFragment extends BaseFragment<MainVideoPresenter> implemen
       @Inject
       AlertDialog.Builder builder;
       private Context context;
+      //防止多次点击
+      private int clickTimes = 0;
 
       private boolean isLoadingMore;
 
       private static MainVideoFragment fragment;
+      private View notDataView;
+
+      private MainVideoFragment(Context context) {
+            this.context = context;
+      }
 
       public static MainVideoFragment newInstance(Context context) {
 
@@ -70,9 +81,6 @@ public class MainVideoFragment extends BaseFragment<MainVideoPresenter> implemen
             return fragment;
       }
 
-      private MainVideoFragment(Context context) {
-            this.context = context;
-      }
 
       @Override
       public int initLayoutRes() {
@@ -81,6 +89,7 @@ public class MainVideoFragment extends BaseFragment<MainVideoPresenter> implemen
 
       @Override
       public void initData(View mView, @Nullable Bundle savedInstanceState) {
+            notDataView = getLayoutInflater().inflate(R.layout.empty_view, (ViewGroup) rcvVideo.getParent(), false);
             swipeLayout.setOnRefreshListener(this);
             rcvVideo.setLayoutManager(layoutManager);
             //如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
@@ -90,15 +99,25 @@ public class MainVideoFragment extends BaseFragment<MainVideoPresenter> implemen
             rcvVideo.setAdapter(mAdapter);
             mAdapter.setOnItemClickListener(this);
             mAdapter.setOnItemLongClickListener(this);
+            notDataView.setOnClickListener(new View.OnClickListener() {
+                  @Override
+                  public void onClick(View v) {
+                        mPresenter.pullToRefresh();
+                  }
+            });
       }
 
       @Override
       public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-
+            //防误触点击
+            if (clickTimes >= 1) {
+                  return;
+            }
             JumpUtils.JumpToVideoPlay((MainActivity) context,
                     view.findViewById(R.id.iv_video_thum),
                     mAdapter.getVideoInfoBeanList().get(position),
                     StringsUtils.getString(R.string.text_transition_share_image));
+            clickTimes += 1;
 
       }
 
@@ -144,6 +163,12 @@ public class MainVideoFragment extends BaseFragment<MainVideoPresenter> implemen
       }
 
       @Override
+      public void setLoadingEmptyView() {
+            //加载空布局
+            mAdapter.setEmptyView(notDataView);
+      }
+
+      @Override
       public void onRefresh() {
             mPresenter.pullToRefresh();
       }
@@ -156,6 +181,9 @@ public class MainVideoFragment extends BaseFragment<MainVideoPresenter> implemen
 
                   int delete = FileUtils.deleteExternalVideoFile(context, mAdapter.getVideoInfoBeanList().get(position).getPath());
                   if (delete != -1) {
+                        if (position == 0) {
+                              mAdapter.setEmptyView(notDataView);
+                        }
                         mAdapter.remove(position);
                         mAdapter.notifyItemChanged(position);
                         AppUtils.showSnackbar(getActivity(), "该文件删除成功|^!^|", false);
@@ -170,6 +198,12 @@ public class MainVideoFragment extends BaseFragment<MainVideoPresenter> implemen
       }
 
       @Override
+      public void onStop() {
+            super.onStop();
+            clickTimes = 0;
+      }
+
+      @Override
       public void onDestroy() {
             super.onDestroy();
             if (mAdapter != null)
@@ -179,4 +213,5 @@ public class MainVideoFragment extends BaseFragment<MainVideoPresenter> implemen
             builder = null;
             context = null;
       }
+
 }

@@ -21,4 +21,10 @@
     <string name="text_play_speed_seven">2.0x</string>
     <!--    共享元素->跳转共享同名称-->
     <string name="text_transition_share_image">share_image</string>
+    <!--    屏幕切换比例-->
+    <string name="text_screen_scale_16_9">16:9</string>
+    <string name="text_screen_scale_4_3">4:3</string>
+    <string name="text_screen_scale_full">全屏</string>
+    <string name="text_screen_scale_match_full">拉伸全屏</string>
+    <string name="text_screen_scale_default">默认比例</string>
 </resources>
