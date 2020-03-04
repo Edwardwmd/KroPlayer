@@ -23,7 +23,6 @@ import com.wmd.kroplayer.utils.FileUtils;
 import com.wmd.kroplayer.utils.TimeUtils;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 import static com.wmd.kroplayer.utils.ContractUtils.LOCAL_VIDEO_INFO;
 
@@ -117,7 +116,7 @@ public class VideoPlayActivity extends BaseKroGSYVideoActivity<StandardGSYVideoP
             thum = new ImageView(this);
             //SDK>=21(Android 5.0)时实现元素共享转场
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                  thum.setTransitionName(String.valueOf(R.string.text_transition_share_image));
+                  thum.setTransitionName(getString(R.string.text_transition_share_image));
             }
             thum.setScaleType(ImageView.ScaleType.CENTER_CROP);
             AppUtils.loadVideoScreenshot(this, videoInfoBean.getThumbPath(), thum, 350000000);
@@ -161,10 +160,4 @@ public class VideoPlayActivity extends BaseKroGSYVideoActivity<StandardGSYVideoP
 
       }
 
-      @Override
-      protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            // TODO: add setContentView(...) invocation
-            ButterKnife.bind(this);
-      }
 }

@@ -27,4 +27,14 @@
     <string name="text_screen_scale_full">全屏</string>
     <string name="text_screen_scale_match_full">拉伸全屏</string>
     <string name="text_screen_scale_default">默认比例</string>
+    <!--    删除文件dialog-->
+    <string name="text_dialog_delete_video_message">你确定要删除此文件吗 |^?^|</string>
+    <string name="text_sure">确定</string>
+    <string name="text_cancle">取消</string>
+    <string name="text_file_delete_successful">该文件删除成功|^!^|</string>
+    <string name="text_file_delete_faile">该文件删除失败|^!^|</string>
+    <!--    toolbar menu-->
+    <string name="text_search">search</string>
+    <string name="text_select">select</string>
+    <string name="text_click_once_close">再按一次退出KroPlayer(^_^)</string>
 </resources>

@@ -19,7 +19,7 @@ import butterknife.Unbinder;
  * Author:  Edwardwmd
  * E-mail:  1732141816wmd @ gmail.com
  * Link:    https://github.com/Edwardwmd
- * Data:    2020/2/1619
+ * Data:    2020/2/16
  * Version: 1.0.0
  * Desc:    BaseActivity
  */
@@ -61,7 +61,6 @@ public abstract class BaseActivity<P extends Ipresenter> extends RxAppCompatActi
 
       @Override
       protected void onDestroy() {
-
             super.onDestroy();
             if (mPresenter != null) {
                   mPresenter.onDestory();
@@ -70,5 +69,6 @@ public abstract class BaseActivity<P extends Ipresenter> extends RxAppCompatActi
             if (mUnbinder != null && mUnbinder != Unbinder.EMPTY)
                   mUnbinder.unbind();
       }
+
 
 }

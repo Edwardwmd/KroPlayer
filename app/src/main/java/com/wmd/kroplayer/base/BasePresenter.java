@@ -27,7 +27,6 @@ public class BasePresenter<M extends IModel, V extends BaseView> implements Ipre
       protected CompositeDisposable mCompositeDisposable;
 
       public BasePresenter() {
-
             onStart();
       }
 
@@ -49,7 +48,6 @@ public class BasePresenter<M extends IModel, V extends BaseView> implements Ipre
 
       @Override
       public void onStart() {
-
             if (mView != null && mView instanceof LifecycleOwner) {
                   ((LifecycleOwner) mView).getLifecycle().addObserver(this);
                   Logger.d("BasePresenter-->onStart-->RootView添加成功!");
@@ -62,7 +60,6 @@ public class BasePresenter<M extends IModel, V extends BaseView> implements Ipre
 
       @Override
       public void onDestory() {
-
             if (mView != null)
                   mView = null;
             if (mModel != null)
@@ -71,11 +68,9 @@ public class BasePresenter<M extends IModel, V extends BaseView> implements Ipre
             if (mCompositeDisposable != null)
                   mCompositeDisposable.clear();
             mCompositeDisposable = null;
-
       }
 
-      protected void addCompositeDisposable(Disposable disposable) {
-
+      public void addCompositeDisposable(Disposable disposable) {
             if (mCompositeDisposable == null) {
                   mCompositeDisposable = new CompositeDisposable();
             }

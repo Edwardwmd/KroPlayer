@@ -1,10 +1,7 @@
 package com.wmd.kroplayer;
 
-import android.app.Application;
-
 import androidx.multidex.MultiDex;
 import androidx.multidex.MultiDexApplication;
-
 
 import com.bumptech.glide.Glide;
 import com.orhanobut.logger.AndroidLogAdapter;
@@ -41,7 +38,7 @@ public class App extends MultiDexApplication {
             mAppComponent.inject(instance);
             //初始化Logger
             Logger.addLogAdapter(new AndroidLogAdapter());
-            //打包index
+            //打包dex
             MultiDex.install(this);
 
             PlayerFactory.setPlayManager(IjkPlayerManager.class);//IjkPlay

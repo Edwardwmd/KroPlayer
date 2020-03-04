@@ -14,6 +14,7 @@ import com.wmd.kroplayer.di.scope.FragmentScope;
 import com.wmd.kroplayer.mvp.contract.MainVideoContract;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -56,29 +57,23 @@ public class MainVideoPresenter extends BasePresenter<MainVideoContract.Model, M
       public void pullToRefresh() {
             addCompositeDisposable(model
                     .getVideoInfos(view.getActivity())
+                    .delay(3, TimeUnit.SECONDS)
                     .subscribeOn(Schedulers.io())
                     .doOnSubscribe(disposable -> {
-                          if (true) {
-                                view.hideLoading();//隐藏下拉刷新的进度条
-                          } else {
-                                view.startLoadMore();
-                          }
+
+                          view.showLoading();//显示下拉刷新的进度条
                     }).subscribeOn(AndroidSchedulers.mainThread())
                     .observeOn(AndroidSchedulers.mainThread())
                     .doFinally(() -> {
-                          if (true) {
-                                view.hideLoading();//隐藏下拉刷新的进度条
-                          } else {
-                                view.endLoadMore();//隐藏上拉加载更多的进度条
-                          }
-                    })
-                    .subscribe(videoInfoBeanList -> {
+
+                          view.hideLoading();//隐藏下拉刷新的进度条
+                    }).subscribe(videoInfoBeanList -> {
                           if (true) videoInfoBeans.clear();//如果是下拉刷新则清空列表
                           preEndIndex = videoInfoBeans.size();//更新之前列表总长度,用于确定加载更多的起始位置
                           if (videoInfoBeanList != null && videoInfoBeanList.size() > 0) {
                                 videoInfoBeans.addAll(videoInfoBeanList);
                           } else {
-                               mView.setLoadingEmptyView();
+                                mView.setLoadingEmptyView();
                           }
 
                           if (true)

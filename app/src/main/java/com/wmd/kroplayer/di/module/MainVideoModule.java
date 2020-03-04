@@ -31,8 +31,14 @@ import dagger.Provides;
  */
 @Module
 public abstract class MainVideoModule {
+      /**
+       * 绑定model,只要model有操作就实现类似次方法
+       *
+       * @param model
+       * @return
+       */
       @Binds
-      abstract MainVideoContract.Model bindUserModel(MainVideoModel model);
+      abstract MainVideoContract.Model bindMainVideoModel(MainVideoModel model);
 
       @FragmentScope
       @Provides

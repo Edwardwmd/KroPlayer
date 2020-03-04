@@ -26,7 +26,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
+    //添加数据库
     greendao {
         schemaVersion 1  // 版本
         daoPackage 'com.wmd.kroplayer.database' // 一般为app包名+生成文件的文件夹名
@@ -85,9 +85,6 @@ dependencies {
 
     //Logger
     api 'com.orhanobut:logger:2.2.0'
-
-    //EventBUs
-    api 'org.greenrobot:eventbus:3.2.0'
 
     //RecyclerViewAdapter
     api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.0-beta11'

@@ -8,4 +8,5 @@
     <color name="colorblack">#000000</color>
     <color name="bg">#F0F0F0</color>
     <color name="colorWitheTransparent">#9fffffff</color>
+    <color name="colorblue">#0066FF</color>
 </resources>

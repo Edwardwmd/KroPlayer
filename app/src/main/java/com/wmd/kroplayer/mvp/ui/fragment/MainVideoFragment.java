@@ -42,7 +42,7 @@ import butterknife.BindView;
 public class MainVideoFragment extends BaseFragment<MainVideoPresenter> implements MainVideoContract.View,
         SwipeRefreshLayout.OnRefreshListener,
         OnItemLongClickListener,
-        OnItemClickListener {
+        OnItemClickListener, View.OnClickListener {
 
       @BindView(R.id.rcv_video)
       RecyclerView rcvVideo;
@@ -57,30 +57,26 @@ public class MainVideoFragment extends BaseFragment<MainVideoPresenter> implemen
       private Context context;
       //防止多次点击
       private int clickTimes = 0;
-
-      private boolean isLoadingMore;
-
-      private static MainVideoFragment fragment;
+      //数据空布局
       private View notDataView;
+      private static MainVideoFragment fragment;
 
-      private MainVideoFragment(Context context) {
-            this.context = context;
+      private MainVideoFragment() {
       }
 
-      public static MainVideoFragment newInstance(Context context) {
+      public static MainVideoFragment newInstance() {
 
             Bundle bundle = new Bundle();
             if (fragment == null) {
                   synchronized (MainVideoFragment.class) {
                         if (fragment == null) {
-                              fragment = new MainVideoFragment(context);
+                              fragment = new MainVideoFragment();
                               fragment.setArguments(bundle);
                         }
                   }
             }
             return fragment;
       }
-
 
       @Override
       public int initLayoutRes() {
@@ -90,21 +86,18 @@ public class MainVideoFragment extends BaseFragment<MainVideoPresenter> implemen
       @Override
       public void initData(View mView, @Nullable Bundle savedInstanceState) {
             notDataView = getLayoutInflater().inflate(R.layout.empty_view, (ViewGroup) rcvVideo.getParent(), false);
+            swipeLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary),
+                    getResources().getColor(R.color.colorAccent),
+                    getResources().getColor(R.color.colorblue));
             swipeLayout.setOnRefreshListener(this);
             rcvVideo.setLayoutManager(layoutManager);
-            //如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
-            rcvVideo.setHasFixedSize(true);
+            rcvVideo.setHasFixedSize(true);//如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
             mAdapter.setAnimationFirstOnly(false);
             mAdapter.setAnimationWithDefault(BaseQuickAdapter.AnimationType.ScaleIn);
             rcvVideo.setAdapter(mAdapter);
             mAdapter.setOnItemClickListener(this);
             mAdapter.setOnItemLongClickListener(this);
-            notDataView.setOnClickListener(new View.OnClickListener() {
-                  @Override
-                  public void onClick(View v) {
-                        mPresenter.pullToRefresh();
-                  }
-            });
+            notDataView.setOnClickListener(this);
       }
 
       @Override
@@ -113,7 +106,7 @@ public class MainVideoFragment extends BaseFragment<MainVideoPresenter> implemen
             if (clickTimes >= 1) {
                   return;
             }
-            JumpUtils.JumpToVideoPlay((MainActivity) context,
+            JumpUtils.JumpToVideoPlay((MainActivity) mContext,
                     view.findViewById(R.id.iv_video_thum),
                     mAdapter.getVideoInfoBeanList().get(position),
                     StringsUtils.getString(R.string.text_transition_share_image));
@@ -153,16 +146,6 @@ public class MainVideoFragment extends BaseFragment<MainVideoPresenter> implemen
       }
 
       @Override
-      public void startLoadMore() {
-            isLoadingMore = true;
-      }
-
-      @Override
-      public void endLoadMore() {
-            isLoadingMore = false;
-      }
-
-      @Override
       public void setLoadingEmptyView() {
             //加载空布局
             mAdapter.setEmptyView(notDataView);
@@ -175,25 +158,24 @@ public class MainVideoFragment extends BaseFragment<MainVideoPresenter> implemen
 
 
       private void showAlertDialog(int position) {
-            builder.setMessage("你确定要删除此文件吗 |^?^|");
+            builder.setMessage(R.string.text_dialog_delete_video_message);
             builder.setCancelable(true);
-            builder.setPositiveButton("确定", (dialog, which) -> {
-
-                  int delete = FileUtils.deleteExternalVideoFile(context, mAdapter.getVideoInfoBeanList().get(position).getPath());
+            builder.setPositiveButton(R.string.text_sure, (dialog, which) -> {
+                  int delete = FileUtils.deleteExternalVideoFile(mContext, mAdapter.getVideoInfoBeanList().get(position).getPath());
                   if (delete != -1) {
-                        if (position == 0) {
-                              mAdapter.setEmptyView(notDataView);
-                        }
                         mAdapter.remove(position);
                         mAdapter.notifyItemChanged(position);
-                        AppUtils.showSnackbar(getActivity(), "该文件删除成功|^!^|", false);
+                        if (mAdapter.getVideoInfoBeanList().size() == 0) {
+                              mPresenter.pullToRefresh();
+                        }
+                        AppUtils.showSnackbar((MainActivity) mContext, getString(R.string.text_file_delete_successful), false);
                   } else {
-                        AppUtils.showSnackbar(getActivity(), "该文件删除失败|^!^|", false);
+                        AppUtils.showSnackbar((MainActivity) mContext, getString(R.string.text_file_delete_faile), false);
                   }
 
                   dialog.dismiss();
             });
-            builder.setNegativeButton("取消", (dialog, which) -> dialog.dismiss());
+            builder.setNegativeButton(R.string.text_cancle, (dialog, which) -> dialog.dismiss());
             builder.create().show();
       }
 
@@ -212,6 +194,11 @@ public class MainVideoFragment extends BaseFragment<MainVideoPresenter> implemen
             layoutManager = null;
             builder = null;
             context = null;
+
       }
 
+      @Override
+      public void onClick(View v) {
+            mPresenter.pullToRefresh();
+      }
 }

@@ -26,10 +26,6 @@ public interface MainVideoContract {
       }
 
       interface View extends BaseView {
-            //开始加载更多
-            void startLoadMore();
-
-            void endLoadMore();
 
             Activity getActivity();
 

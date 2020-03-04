@@ -59,7 +59,7 @@ public class JumpUtils {
       public static void JumpToVideoPlay(Activity activity, View view, VideoInfoBean videoInfoBean, String sharedElementName) {
             Intent intent = new Intent(activity, VideoPlayActivity.class);
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                  intent.putExtra(LOCAL_VIDEO_INFO,videoInfoBean);
+                  intent.putExtra(LOCAL_VIDEO_INFO, videoInfoBean);
                   ActivityOptionsCompat activityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(
                           activity, view, sharedElementName);
                   activity.startActivity(intent, activityOptions.toBundle());

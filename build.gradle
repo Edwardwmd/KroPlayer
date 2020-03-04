@@ -4,7 +4,7 @@ buildscript {
     repositories {
         google()
         mavenCentral()
-        def cn = "http://maven.aliyun.com/nexus/content/groups/public/"
+        def cn = "http://maven.aliyun.com/nexus/content/groups/public/"//(阿里镜像库)
         def abroad = "http://central.maven.org/maven2/"
         // 先从url中下载jar若没有找到，则在artifactUrls中寻找
         maven {
@@ -16,7 +16,7 @@ buildscript {
 
     dependencies {
         classpath 'com.android.tools.build:gradle:3.6.1'
-        classpath 'org.greenrobot:greendao-gradle-plugin:3.2.2' // add plugin
+        classpath 'org.greenrobot:greendao-gradle-plugin:3.2.2' // add greendao plugin
     }
 
 }
