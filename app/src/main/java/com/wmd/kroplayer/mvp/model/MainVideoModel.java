@@ -68,10 +68,11 @@ public class MainVideoModel extends BaseModel implements MainVideoContract.Model
                                     info.setThumbPath(cursor.getString(cursor.getColumnIndex(mediaColumns[6])));
                                     info.setVideoHigh(cursor.getLong(cursor.getColumnIndex(mediaColumns[7])));
                                     info.setVideoWidth(cursor.getLong(cursor.getColumnIndex(mediaColumns[8])));
+                                    info.setSelect(false);
                                     videoInfoBeans.add(info);
 
                               } while (cursor.moveToNext());
-                              Logger.e("所有URL------>{ "+videoInfoBeans.toString() +" }");
+                              Logger.e("所有URL------>{ " + videoInfoBeans.toString() + " }");
                         }
                         emitter.onNext(videoInfoBeans);
                         emitter.onComplete();

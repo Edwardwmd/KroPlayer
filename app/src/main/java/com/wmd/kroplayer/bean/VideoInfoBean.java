@@ -1,11 +1,7 @@
 package com.wmd.kroplayer.bean;
 
-import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Id;
 
 /**
  * Author:  Edwardwmd
@@ -17,7 +13,6 @@ import org.greenrobot.greendao.annotation.Id;
  */
 public class VideoInfoBean implements Parcelable {
 
-      private long id;
       //视频名称
       private String videoName;
       //视频容量大小
@@ -35,6 +30,16 @@ public class VideoInfoBean implements Parcelable {
       //视频宽
       private long videoWidth;
 
+      public boolean isSelect() {
+            return isSelect;
+      }
+
+      public void setSelect(boolean select) {
+            isSelect = select;
+      }
+
+      private boolean isSelect;
+
       public VideoInfoBean() {
       }
 
@@ -45,7 +50,8 @@ public class VideoInfoBean implements Parcelable {
                            String path,
                            String thumbPath,
                            long videoHigh,
-                           long videoWidth
+                           long videoWidth,
+                           boolean isSelect
       ) {
             this.videoName = videoName;
             this.videoSize = videoSize;
@@ -55,6 +61,7 @@ public class VideoInfoBean implements Parcelable {
             this.thumbPath = thumbPath;
             this.videoHigh = videoHigh;
             this.videoWidth = videoWidth;
+            this.isSelect = isSelect;
       }
 
       protected VideoInfoBean(Parcel in) {
@@ -66,6 +73,7 @@ public class VideoInfoBean implements Parcelable {
             thumbPath = in.readString();
             videoHigh = in.readLong();
             videoWidth = in.readLong();
+            isSelect = in.readByte() != 0;
       }
 
       public static final Creator<VideoInfoBean> CREATOR = new Creator<VideoInfoBean>() {
@@ -78,7 +86,9 @@ public class VideoInfoBean implements Parcelable {
                           in.readString(),
                           in.readString(),
                           in.readLong(),
-                          in.readLong());
+                          in.readLong(),
+                          in.readByte() != 0);
+
             }
 
             @Override
@@ -102,6 +112,7 @@ public class VideoInfoBean implements Parcelable {
             dest.writeString(thumbPath);
             dest.writeLong(videoHigh);
             dest.writeLong(videoWidth);
+            dest.writeByte((byte) (isSelect ? 1 : 0));
       }
 
       public long getVideoHigh() {

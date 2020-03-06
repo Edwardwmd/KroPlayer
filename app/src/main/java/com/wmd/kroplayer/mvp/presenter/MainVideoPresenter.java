@@ -1,8 +1,8 @@
 package com.wmd.kroplayer.mvp.presenter;
 
 import android.annotation.SuppressLint;
-import android.view.ViewGroup;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.OnLifecycleEvent;
 
@@ -36,9 +36,15 @@ public class MainVideoPresenter extends BasePresenter<MainVideoContract.Model, M
       List<VideoInfoBean> videoInfoBeans;
       @Inject
       PullToRefreshAdapter mAdapter;
+      @Inject
+      AlertDialog.Builder builder;
       private int preEndIndex;
       private MainVideoContract.View view;
       private MainVideoContract.Model model;
+      private AlertDialog alertDialog;
+      private final String[] selectItem = new String[]{"选择", "删除"};
+      private AlertDialog deleteAlertDialog;
+
 
       @Inject
       public MainVideoPresenter(MainVideoContract.View view, MainVideoContract.Model model) {
@@ -84,5 +90,45 @@ public class MainVideoPresenter extends BasePresenter<MainVideoContract.Model, M
 
       }
 
+      /**
+       * 长安点击时的相关逻辑
+       *
+       * @param position 位置
+       */
+      public void startMaterialDialog(int position) {
+            builder.setCancelable(true);
+            builder.setItems(selectItem, (dialog, which) -> {
+                  switch (selectItem[which]) {
+                        case "选择":
+                              mView.showSelectLogic(position);
+                              break;
+                        case "删除":
+                              AlertDialog.Builder deleteAlertDialogBuilder = new AlertDialog.Builder(mView.getActivity());
+                              deleteAlertDialogBuilder.setMessage(R.string.text_dialog_delete_video_message);
+                              deleteAlertDialogBuilder.setPositiveButton(R.string.text_sure, (deleteDialog, deleteWhich) -> {
+                                    mView.showDeleteLogic(position);
+                                    deleteDialog.dismiss();
+                              });
+                              deleteAlertDialogBuilder.setNegativeButton(R.string.text_cancle, (deleteDialog, deleteWhich) -> deleteDialog.dismiss());
+                              deleteAlertDialog = deleteAlertDialogBuilder.create();
+                              deleteAlertDialog.show();
+                              break;
+                  }
 
+            });
+            alertDialog = builder.create();
+            alertDialog.show();
+      }
+
+      @Override
+      public void onDestory() {
+            if (alertDialog != null && alertDialog.isShowing()) {
+                  alertDialog.dismiss();
+            }
+            if (deleteAlertDialog != null && deleteAlertDialog.isShowing()) {
+                  deleteAlertDialog.dismiss();
+            }
+            super.onDestory();
+
+      }
 }

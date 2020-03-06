@@ -2,7 +2,6 @@ package com.wmd.kroplayer.mvp.contract;
 
 import android.app.Activity;
 import android.content.Context;
-import android.view.ViewGroup;
 
 import com.wmd.kroplayer.base.BaseView;
 import com.wmd.kroplayer.base.IModel;
@@ -30,6 +29,10 @@ public interface MainVideoContract {
             Activity getActivity();
 
             void setLoadingEmptyView();
+            //显示选择逻辑
+            void showSelectLogic(int position);
+            //显示删除逻辑
+            void showDeleteLogic(int position);
       }
 
       interface Presenter {

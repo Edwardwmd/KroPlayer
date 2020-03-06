@@ -2,10 +2,14 @@ package com.wmd.kroplayer.mvp.ui.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -30,7 +34,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
       @BindView(R.id.tab_toolbar)
       MaterialToolbar tabToolbar;
       private long mPressedTime = 0;
-
+      private MenuItem searchMenuItem;
       @Override
       protected void initActivityCompontent() {
             DaggerMainComponent
@@ -48,6 +52,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
       @Override
       public void initData(@Nullable Bundle savedInstanceState) {
+            setSupportActionBar(tabToolbar);
             //解决BottomNavigationView大于3个item时的位移
             AppUtils.disableShiftMode(tabBottomNav);
             //BottomNavigationView item选择事件
@@ -112,4 +117,18 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             return tabToolbar;
       }
 
+      @Override
+      public boolean onCreateOptionsMenu(Menu menu) {
+            getMenuInflater().inflate(R.menu.material_toolbar_menu, menu);
+            searchMenuItem = menu.findItem(R.id.action_search);
+//            searchMenuItem.setOnActionExpandListener(onActionExpandListener);
+            SearchView searchView = (SearchView) searchMenuItem.getActionView();
+            searchView.setOnSearchClickListener(new View.OnClickListener() {
+                  @Override
+                  public void onClick(View v) {
+                        Toast.makeText(MainActivity.this, "点击了搜索按钮", Toast.LENGTH_SHORT).show();
+                  }
+            });
+            return true;
+      }
 }

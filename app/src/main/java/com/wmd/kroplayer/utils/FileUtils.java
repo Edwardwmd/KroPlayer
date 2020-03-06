@@ -117,10 +117,11 @@ public class FileUtils {
        * @param loacalVideoPath 本地视频路径
        * @return
        */
-      public static int deleteExternalVideoFile(Context context, String loacalVideoPath) {
-            return context.getContentResolver().delete(MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
+      public static boolean deleteExternalVideoFile(Context context, String loacalVideoPath) {
+            int deleteIndex = context.getContentResolver().delete(MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
                     MediaStore.Video.Media.DATA + "= \"" + loacalVideoPath + "\"",
                     null);
+            return deleteIndex != -1;
       }
 
       /**
@@ -132,4 +133,12 @@ public class FileUtils {
       public static String checkVideoType(String localPath) {
             return localPath.substring(localPath.lastIndexOf(".") + 1).toLowerCase();
       }
+
+//      public static boolean deleteVideo(Context context, String url) {
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+//                  return delete(context, url);
+//            } else {
+//                  return deleteExternalVideoFile(context, url);
+//            }
+//      }
 }

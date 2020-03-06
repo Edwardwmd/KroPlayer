@@ -1,44 +1,22 @@
 package com.wmd.kroplayer.adapter;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.media.MediaMetadataRetriever;
-import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.graphics.Color;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityOptionsCompat;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
-import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
-import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.wmd.kroplayer.R;
 import com.wmd.kroplayer.bean.VideoInfoBean;
-import com.wmd.kroplayer.mvp.ui.activity.MainActivity;
-import com.wmd.kroplayer.mvp.ui.activity.VideoPlayActivity;
-import com.wmd.kroplayer.mvp.ui.fragment.MainVideoFragment;
 import com.wmd.kroplayer.utils.AppUtils;
 import com.wmd.kroplayer.utils.FileSizeUtil;
 import com.wmd.kroplayer.utils.TimeUtils;
 
-import java.security.MessageDigest;
 import java.util.List;
-
-import static com.bumptech.glide.load.resource.bitmap.VideoDecoder.FRAME_OPTION;
-import static com.wmd.kroplayer.utils.ContractUtils.VIDEO_PLAYE_NAME;
-import static com.wmd.kroplayer.utils.ContractUtils.VIDEO_PLAYE_PATH;
-import static com.wmd.kroplayer.utils.ContractUtils.VIDEO_PLAYE_THUM;
 
 
 /**
@@ -53,6 +31,9 @@ public class PullToRefreshAdapter extends BaseQuickAdapter<VideoInfoBean, BaseVi
       private List<VideoInfoBean> videoInfoBeanList;
       private Context context;
 
+      private boolean isLongClick = false;
+      private ImageView materialCheckBox;
+
       public PullToRefreshAdapter(Context context, List<VideoInfoBean> videoInfoBeanList) {
             super(R.layout.item_mainvideo, videoInfoBeanList);
             this.videoInfoBeanList = videoInfoBeanList;
@@ -61,8 +42,21 @@ public class PullToRefreshAdapter extends BaseQuickAdapter<VideoInfoBean, BaseVi
 
       @Override
       protected void convert(@NonNull BaseViewHolder mVH, VideoInfoBean videoInfoBean) {
-
+            materialCheckBox = mVH.getView(R.id.img_item_checkbox);
+            if (isLongClick) {
+                  materialCheckBox.setVisibility(View.VISIBLE);
+            } else {
+                  materialCheckBox.setVisibility(View.GONE);
+            }
             if (videoInfoBean != null) {
+                  if (videoInfoBean.isSelect()) {
+                        changeBackgroundColorCheck(mVH);
+                        materialCheckBox.setImageResource(R.drawable.ic_checkbox_round_checked);
+                  } else {
+                        changeBackgroundColorNomal(mVH);
+                        materialCheckBox.setImageResource(R.drawable.ic_checkbox_round_nomal);
+                  }
+
                   AppUtils.loadVideoScreenshot(context, videoInfoBean.getThumbPath(), mVH.getView(R.id.iv_video_thum), 350000000);
                   ((TextView) mVH.getView(R.id.tv_videosize)).setText(FileSizeUtil.FormetFileSize(videoInfoBean.getVideoSize()));
                   ((TextView) mVH.getView(R.id.tv_videodate)).setText(TimeUtils.getFormatedDateTime("yyyy-MM-dd", videoInfoBean.getTime()));
@@ -77,8 +71,34 @@ public class PullToRefreshAdapter extends BaseQuickAdapter<VideoInfoBean, BaseVi
             return videoInfoBeanList;
       }
 
-      public void setEmptyView(int layoutResId, ViewGroup parent) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(layoutResId, parent, false);
-            setEmptyView(view);
+      public void isLongClick(boolean isLongClick) {
+            this.isLongClick = isLongClick;
+            notifyDataSetChanged();
       }
+
+      public boolean isLongClick() {
+            return isLongClick;
+      }
+
+      private void changeBackgroundColorCheck(@NonNull BaseViewHolder mVH) {
+            mVH.getView(R.id.cl_continar).setBackgroundColor(Color.parseColor("#C1CDCD"));
+            ((TextView) mVH.getView(R.id.tv_videosize)).setTextColor(Color.parseColor("#FFFFFF"));
+            ((TextView) mVH.getView(R.id.tv_videodate)).setTextColor(Color.parseColor("#FFFFFF"));
+            ((TextView) mVH.getView(R.id.tv_videoname)).setTextColor(Color.parseColor("#FFFFFF"));
+            ((TextView) mVH.getView(R.id.tv_videoduration)).setTextColor(Color.parseColor("#FFFFFF"));
+            ((TextView) mVH.getView(R.id.tv_durationtitle)).setTextColor(Color.parseColor("#FFFFFF"));
+            (mVH.getView(R.id.vi_verticalline)).setBackgroundColor(Color.parseColor("#FFFFFF"));
+      }
+
+      private void changeBackgroundColorNomal(@NonNull BaseViewHolder mVH) {
+            mVH.getView(R.id.cl_continar).setBackgroundColor(Color.parseColor("#FFFFFF"));
+            ((TextView) mVH.getView(R.id.tv_videosize)).setTextColor(Color.parseColor("#6E6E6E"));
+            ((TextView) mVH.getView(R.id.tv_videodate)).setTextColor(Color.parseColor("#6E6E6E"));
+            ((TextView) mVH.getView(R.id.tv_videoname)).setTextColor(Color.parseColor("#6E6E6E"));
+            ((TextView) mVH.getView(R.id.tv_videoduration)).setTextColor(Color.parseColor("#6E6E6E"));
+            ((TextView) mVH.getView(R.id.tv_durationtitle)).setTextColor(Color.parseColor("#6E6E6E"));
+            (mVH.getView(R.id.vi_verticalline)).setBackgroundColor(Color.parseColor("#6E6E6E"));
+      }
+
+
 }

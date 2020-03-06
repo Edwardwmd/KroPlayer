@@ -2,13 +2,11 @@ package com.wmd.kroplayer.di.module;
 
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.wmd.kroplayer.adapter.PullToRefreshAdapter;
 import com.wmd.kroplayer.bean.VideoInfoBean;
-import com.wmd.kroplayer.di.scope.ActivityScope;
 import com.wmd.kroplayer.di.scope.FragmentScope;
 import com.wmd.kroplayer.mvp.contract.MainVideoContract;
 import com.wmd.kroplayer.mvp.model.MainVideoModel;
@@ -63,4 +61,5 @@ public abstract class MainVideoModule {
       static AlertDialog.Builder provideAlertDialogBuilder(MainVideoContract.View view) {
             return new AlertDialog.Builder(view.getActivity());
       }
+
 }

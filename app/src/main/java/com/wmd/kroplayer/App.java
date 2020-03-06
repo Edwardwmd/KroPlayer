@@ -12,6 +12,10 @@ import com.shuyu.gsyvideoplayer.utils.GSYVideoType;
 import com.wmd.kroplayer.di.component.AppComponent;
 import com.wmd.kroplayer.di.component.DaggerAppComponent;
 
+import cat.ereza.customactivityoncrash.activity.DefaultErrorActivity;
+import me.jessyan.autosize.AutoSizeConfig;
+import me.jessyan.autosize.external.ExternalAdaptInfo;
+
 
 /**
  * Author:  Edwardwmd
@@ -43,6 +47,7 @@ public class App extends MultiDexApplication {
 
             PlayerFactory.setPlayManager(IjkPlayerManager.class);//IjkPlay
             GSYVideoType.setRenderType(GSYVideoType.TEXTURE);
+            AutoSizeConfig.getInstance().getExternalAdaptManager().addExternalAdaptInfoOfActivity(DefaultErrorActivity.class, new ExternalAdaptInfo(true, 400));
 
       }
 
