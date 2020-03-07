@@ -101,4 +101,5 @@ public class PullToRefreshAdapter extends BaseQuickAdapter<VideoInfoBean, BaseVi
       }
 
 
+
 }

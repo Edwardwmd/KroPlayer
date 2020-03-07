@@ -21,7 +21,10 @@ import io.reactivex.Observable;
  */
 public interface MainVideoContract {
       interface Model extends IModel {
+            //获取本地视频数据
             Observable<List<VideoInfoBean>> getVideoInfos(Context context);
+            //判断是否删除视频
+            Observable<Boolean> isDeleteVideo(Context context, String loacalVideoPath);
       }
 
       interface View extends BaseView {
@@ -31,8 +34,10 @@ public interface MainVideoContract {
             void setLoadingEmptyView();
             //显示选择逻辑
             void showSelectLogic(int position);
-            //显示删除逻辑
-            void showDeleteLogic(int position);
+
+            void deleteLogic(boolean isDelete, int position);
+
+            void deleteLogic(boolean isDelete, VideoInfoBean videoInfoBean);
       }
 
       interface Presenter {

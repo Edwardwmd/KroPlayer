@@ -14,6 +14,8 @@ import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import me.jessyan.autosize.AutoSizeConfig;
+import me.jessyan.autosize.internal.CustomAdapt;
 
 /**
  * Author:  Edwardwmd
@@ -23,7 +25,7 @@ import butterknife.Unbinder;
  * Version: 1.0.0
  * Desc:    BaseActivity
  */
-public abstract class BaseActivity<P extends Ipresenter> extends RxAppCompatActivity implements IActivity {
+public abstract class BaseActivity<P extends Ipresenter> extends RxAppCompatActivity implements IActivity, CustomAdapt {
       @Inject
       protected P mPresenter;
       private Unbinder mUnbinder;
@@ -62,6 +64,8 @@ public abstract class BaseActivity<P extends Ipresenter> extends RxAppCompatActi
       @Override
       protected void onDestroy() {
             super.onDestroy();
+            AutoSizeConfig.getInstance().stop(this);
+
             if (mPresenter != null) {
                   mPresenter.onDestory();
                   mPresenter = null;

@@ -6,7 +6,6 @@ import android.annotation.SuppressLint;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.OnLifecycleEvent;
 
-import com.orhanobut.logger.Logger;
 import com.wmd.kroplayer.base.BasePresenter;
 import com.wmd.kroplayer.di.scope.ActivityScope;
 import com.wmd.kroplayer.mvp.contract.LauncherContract;
@@ -33,7 +32,6 @@ public class LauncherPresenter extends BasePresenter<LauncherContract.Model, Lau
 
       @Inject
       public LauncherPresenter(LauncherContract.View mView) {
-
             super(mView);
       }
 
@@ -67,9 +65,4 @@ public class LauncherPresenter extends BasePresenter<LauncherContract.Model, Lau
 
       }
 
-      @Override
-      public void onDestory() {
-
-            Logger.d("LauncherPresenter--->onDestory---销毁成功!");
-      }
 }

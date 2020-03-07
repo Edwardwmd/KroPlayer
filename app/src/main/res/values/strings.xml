@@ -37,4 +37,8 @@
     <string name="text_search">search</string>
     <string name="text_select">select</string>
     <string name="text_click_once_close">再按一次退出KroPlayer(^_^)</string>
+    <string name="text_delete_unrecoverable">删除后不可恢复，是否删除该条目？</string>
+    <string name="text_delete_unrecoverable_pice">删除后不可恢复，是否删除这</string>
+    <string name="text_delete_item">个条目？</string>
+    <string name="text_selected_item">\"已选择: \"</string>
 </resources>

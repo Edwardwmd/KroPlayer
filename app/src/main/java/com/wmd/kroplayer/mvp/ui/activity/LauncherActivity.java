@@ -97,4 +97,14 @@ public class LauncherActivity extends BaseActivity<LauncherPresenter> implements
             rxPermissions = null;
 
       }
+
+      @Override
+      public boolean isBaseOnWidth() {
+            return false;
+      }
+
+      @Override
+      public float getSizeInDp() {
+            return 1080;
+      }
 }

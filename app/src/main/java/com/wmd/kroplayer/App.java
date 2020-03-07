@@ -47,7 +47,11 @@ public class App extends MultiDexApplication {
 
             PlayerFactory.setPlayManager(IjkPlayerManager.class);//IjkPlay
             GSYVideoType.setRenderType(GSYVideoType.TEXTURE);
-            AutoSizeConfig.getInstance().getExternalAdaptManager().addExternalAdaptInfoOfActivity(DefaultErrorActivity.class, new ExternalAdaptInfo(true, 400));
+
+            AutoSizeConfig
+                    .getInstance()
+                    .getExternalAdaptManager()
+                    .addExternalAdaptInfoOfActivity(DefaultErrorActivity.class, new ExternalAdaptInfo(true, 400));
 
       }
 

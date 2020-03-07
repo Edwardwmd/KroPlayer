@@ -160,4 +160,13 @@ public class VideoPlayActivity extends BaseKroGSYVideoActivity<StandardGSYVideoP
 
       }
 
+      @Override
+      public boolean isBaseOnWidth() {
+            return false;
+      }
+
+      @Override
+      public float getSizeInDp() {
+            return 720;
+      }
 }

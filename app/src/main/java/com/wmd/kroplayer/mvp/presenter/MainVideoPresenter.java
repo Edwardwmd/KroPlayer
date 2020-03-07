@@ -1,7 +1,5 @@
 package com.wmd.kroplayer.mvp.presenter;
 
-import android.annotation.SuppressLint;
-
 import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.OnLifecycleEvent;
@@ -59,7 +57,9 @@ public class MainVideoPresenter extends BasePresenter<MainVideoContract.Model, M
             pullToRefresh();
       }
 
-      @SuppressLint("CheckResult")
+      /**
+       * 刷新数据
+       */
       public void pullToRefresh() {
             addCompositeDisposable(model
                     .getVideoInfos(view.getActivity())
@@ -106,7 +106,7 @@ public class MainVideoPresenter extends BasePresenter<MainVideoContract.Model, M
                               AlertDialog.Builder deleteAlertDialogBuilder = new AlertDialog.Builder(mView.getActivity());
                               deleteAlertDialogBuilder.setMessage(R.string.text_dialog_delete_video_message);
                               deleteAlertDialogBuilder.setPositiveButton(R.string.text_sure, (deleteDialog, deleteWhich) -> {
-                                    mView.showDeleteLogic(position);
+                                    deleteVideo(position);
                                     deleteDialog.dismiss();
                               });
                               deleteAlertDialogBuilder.setNegativeButton(R.string.text_cancle, (deleteDialog, deleteWhich) -> deleteDialog.dismiss());
@@ -119,6 +119,29 @@ public class MainVideoPresenter extends BasePresenter<MainVideoContract.Model, M
             alertDialog = builder.create();
             alertDialog.show();
       }
+
+      /**
+       * 单个删除
+       *
+       * @param position 根据position
+       */
+      private void deleteVideo(int position) {
+            addCompositeDisposable(mModel.isDeleteVideo(mView.getActivity(), mAdapter.getVideoInfoBeanList().get(position).getPath())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(isDeleteVideo -> mView.deleteLogic(isDeleteVideo, position)));
+      }
+
+      /**
+       * 需要判断多条当中被选中的条目(videoInfoBean.isSelect())
+       *
+       * @param videoInfoBean 根据被选中VideoInfoBean删除
+       */
+      public void deleteVideo(VideoInfoBean videoInfoBean) {
+            addCompositeDisposable(mModel.isDeleteVideo(mView.getActivity(), videoInfoBean.getPath())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(isDeleteVideo -> mView.deleteLogic(isDeleteVideo, videoInfoBean)));
+      }
+
 
       @Override
       public void onDestory() {

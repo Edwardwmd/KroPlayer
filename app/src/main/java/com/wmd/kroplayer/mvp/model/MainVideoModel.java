@@ -88,5 +88,23 @@ public class MainVideoModel extends BaseModel implements MainVideoContract.Model
 
       }
 
+      /**
+       * 删除本地数据
+       *
+       * @param context         上下文
+       * @param loacalVideoPath 本地视频路径
+       * @return Observable<Boolean>
+       */
+      @Override
+      public Observable<Boolean> isDeleteVideo(Context context, String loacalVideoPath) {
+            return Observable.create((ObservableOnSubscribe<Boolean>) emitter -> {
+                  int deleteIndex = context.getContentResolver().delete(MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
+                          MediaStore.Video.Media.DATA + "= \"" + loacalVideoPath + "\"",
+                          null);
+                  emitter.onNext(deleteIndex != -1);
+                  emitter.onComplete();
+            }).subscribeOn(Schedulers.io());
+      }
+
 
 }

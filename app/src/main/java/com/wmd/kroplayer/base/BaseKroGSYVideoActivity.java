@@ -9,7 +9,6 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.orhanobut.logger.Logger;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
@@ -17,14 +16,12 @@ import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
 import com.shuyu.gsyvideoplayer.listener.VideoAllCallBack;
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
 import com.shuyu.gsyvideoplayer.video.base.GSYBaseVideoPlayer;
-import com.trello.rxlifecycle3.components.RxActivity;
 import com.trello.rxlifecycle3.components.support.RxAppCompatActivity;
-import com.wmd.kroplayer.utils.AppUtils;
-import com.wmd.kroplayer.utils.JumpUtils;
-
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import me.jessyan.autosize.AutoSizeConfig;
+import me.jessyan.autosize.internal.CustomAdapt;
 
 /**
  * Author:  Edwardwmd
@@ -34,7 +31,7 @@ import butterknife.Unbinder;
  * Version: 1.0.0
  * Desc:    BaseKroGSYVideoActivity
  */
-public abstract class BaseKroGSYVideoActivity<T extends GSYBaseVideoPlayer> extends RxAppCompatActivity implements VideoAllCallBack, IActivity {
+public abstract class BaseKroGSYVideoActivity<T extends GSYBaseVideoPlayer> extends RxAppCompatActivity implements VideoAllCallBack, IActivity, CustomAdapt {
 
       protected boolean isPlay;
 
@@ -148,6 +145,7 @@ public abstract class BaseKroGSYVideoActivity<T extends GSYBaseVideoPlayer> exte
       @Override
       protected void onDestroy() {
             super.onDestroy();
+            AutoSizeConfig.getInstance().stop(this);
             if (isPlay) {
                   getGSYVideoPlayer().getCurrentPlayer().release();
             }

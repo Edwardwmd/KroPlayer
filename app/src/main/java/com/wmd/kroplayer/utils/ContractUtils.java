@@ -24,5 +24,8 @@ public class ContractUtils {
 
       public static final String LOCAL_VIDEO_INFO = "KROPLAYER_LOCAL_VIDEO_INFO";
 
+      public static final int SINGLE_DELETE_MODE = 0x01;
+      public static final int MUTIL_DELETE_MODE = 0x02;
+
 
 }

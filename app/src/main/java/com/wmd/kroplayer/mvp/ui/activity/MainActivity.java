@@ -131,4 +131,14 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             });
             return true;
       }
+
+      @Override
+      public boolean isBaseOnWidth() {
+            return false;
+      }
+
+      @Override
+      public float getSizeInDp() {
+            return 720;
+      }
 }

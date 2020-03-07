@@ -1,5 +1,6 @@
 package com.wmd.kroplayer.mvp.ui.fragment;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +27,6 @@ import com.wmd.kroplayer.mvp.contract.MainVideoContract;
 import com.wmd.kroplayer.mvp.presenter.MainVideoPresenter;
 import com.wmd.kroplayer.mvp.ui.activity.MainActivity;
 import com.wmd.kroplayer.utils.AppUtils;
-import com.wmd.kroplayer.utils.FileUtils;
 import com.wmd.kroplayer.utils.JumpUtils;
 import com.wmd.kroplayer.utils.StringsUtils;
 
@@ -68,6 +68,9 @@ public class MainVideoFragment extends BaseFragment<MainVideoPresenter> implemen
       TextView tvSelectNum;
 
       private int index = 0;
+
+      //防止再次长安点击弹出dialog
+      private int longClickTimes = 0;
       //数据空布局
       private View notDataView;
       private boolean isSelectAll = false;
@@ -119,10 +122,28 @@ public class MainVideoFragment extends BaseFragment<MainVideoPresenter> implemen
       }
 
       @Override
+      public void onClick(View v) {
+            switch (v.getId()) {
+                  case R.id.ll_empty_view:
+                        mAdapter.isLongClick(false);
+                        mPresenter.pullToRefresh();
+                        break;
+                  case R.id.img_select_all:
+                        selectAllMain();
+                        break;
+                  case R.id.tv_finish:
+                        finishSelection();
+                        break;
+                  case R.id.tv_delete:
+                        deleteVideo();
+                        break;
+            }
+      }
+
+      @SuppressLint("SetTextI18n")
+      @Override
       public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-
             VideoInfoBean videoInfoBean = mAdapter.getVideoInfoBeanList().get(position);
-
             if (isOnLongClick) {
                   boolean isSelect = videoInfoBean.isSelect();
                   if (!isSelect) {
@@ -138,12 +159,10 @@ public class MainVideoFragment extends BaseFragment<MainVideoPresenter> implemen
                         index--;
                         isSelectAll = false;
                         imgSelectAll.setImageResource(R.drawable.ic_select_all_nomal);
-
                   }
-                  tvSelectNum.setText("已选择: " + index);
+                  tvSelectNum.setText(getString(R.string.text_selected_item) + index);
                   mAdapter.notifyItemChanged(position);
             } else {
-                  AppUtils.showToast("Url----->"+videoInfoBean.getPath());
                   JumpUtils.JumpToVideoPlay((MainActivity) mContext,
                           view.findViewById(R.id.iv_video_thum),
                           videoInfoBean,
@@ -154,8 +173,18 @@ public class MainVideoFragment extends BaseFragment<MainVideoPresenter> implemen
 
       @Override
       public boolean onItemLongClick(BaseQuickAdapter adapter, View view, int position) {
-            mPresenter.startMaterialDialog(position);
-            return true;
+            if (longClickTimes >= 1) {
+                  return false;
+            } else {
+                  mPresenter.startMaterialDialog(position);
+                  longClickTimes++;
+                  return true;
+            }
+      }
+
+      @Override
+      public void onRefresh() {
+            mPresenter.pullToRefresh();
       }
 
       @Override
@@ -189,25 +218,42 @@ public class MainVideoFragment extends BaseFragment<MainVideoPresenter> implemen
             mAdapter.setEmptyView(notDataView);
       }
 
+      @SuppressLint("SetTextI18n")
       @Override
       public void showSelectLogic(int position) {
-            isOnLongClick = true;
-            if (deleteSelectLayout.getVisibility() == View.GONE) {
+            if (deleteSelectLayout.getVisibility() == View.GONE)
                   deleteSelectLayout.setVisibility(View.VISIBLE);
-            }
+            index = 1;
+            isOnLongClick = true;
             mAdapter.isLongClick(true);
             swipeLayout.setEnabled(false);
-            tvSelectNum.setText("已选择: " + 0);
+            mAdapter.getVideoInfoBeanList().get(position).setSelect(true);
+            tvSelectNum.setText(getString(R.string.text_selected_item) + index);
 
       }
 
       @Override
-      public void showDeleteLogic(int position) {
-            boolean delete = FileUtils.deleteExternalVideoFile(mContext, mAdapter.getVideoInfoBeanList().get(position).getPath());
-            if (delete) {
+      public void deleteLogic(boolean isDelete, int position) {
+            if (isDelete) {
                   mAdapter.remove(position);
-                  mAdapter.notifyItemChanged(position);
+                  mAdapter.notifyItemChanged(position);//局部更新Position
                   if (mAdapter.getVideoInfoBeanList().size() == 0) {
+                        mPresenter.pullToRefresh();
+                  }
+                  longClickTimes = 0;
+                  AppUtils.showSnackbar((MainActivity) mContext, getString(R.string.text_file_delete_successful), false);
+            } else {
+                  AppUtils.showSnackbar((MainActivity) mContext, getString(R.string.text_file_delete_faile), false);
+            }
+      }
+
+      @Override
+      public void deleteLogic(boolean isDelete, VideoInfoBean videoInfoBean) {
+            if (isDelete) {
+                  mAdapter.remove(videoInfoBean);
+                  if (mAdapter.getVideoInfoBeanList().size() == 0) {
+                        deleteSelectLayout.setVisibility(View.GONE);
+                        swipeLayout.setEnabled(true);
                         mPresenter.pullToRefresh();
                   }
                   AppUtils.showSnackbar((MainActivity) mContext, getString(R.string.text_file_delete_successful), false);
@@ -216,14 +262,11 @@ public class MainVideoFragment extends BaseFragment<MainVideoPresenter> implemen
             }
       }
 
-      @Override
-      public void onRefresh() {
-            mPresenter.pullToRefresh();
-      }
 
       /**
-       * 全选和反选
+       * 全选和反选逻辑
        */
+      @SuppressLint("SetTextI18n")
       private void selectAllMain() {
             if (mAdapter == null) return;
             if (!isSelectAll) {
@@ -231,7 +274,6 @@ public class MainVideoFragment extends BaseFragment<MainVideoPresenter> implemen
                         mAdapter.getVideoInfoBeanList().get(i).setSelect(true);
                   }
                   index = mAdapter.getVideoInfoBeanList().size();
-                  tvDelete.setEnabled(true);
                   imgSelectAll.setImageResource(R.drawable.ic_select_all_check);
                   isSelectAll = true;
             } else {
@@ -239,20 +281,19 @@ public class MainVideoFragment extends BaseFragment<MainVideoPresenter> implemen
                         mAdapter.getVideoInfoBeanList().get(i).setSelect(false);
                   }
                   index = 0;
-                  tvDelete.setEnabled(false);
                   imgSelectAll.setImageResource(R.drawable.ic_select_all_nomal);
                   isSelectAll = false;
             }
             mAdapter.notifyDataSetChanged();
-            tvSelectNum.setText("已选择: " + index);
+            tvSelectNum.setText(getString(R.string.text_selected_item) + index);
       }
 
       /**
-       * 删除逻辑
+       * 删除多项数据逻辑
        */
+      @SuppressLint("SetTextI18n")
       private void deleteVideo() {
             if (index == 0) {
-                  tvDelete.setEnabled(false);
                   return;
             }
             deleteMutilDialog = new AlertDialog.Builder(mContext).create();
@@ -263,43 +304,36 @@ public class MainVideoFragment extends BaseFragment<MainVideoPresenter> implemen
             Button cancle = deleteMutilDialog.findViewById(R.id.btn_cancle);
             Button sure = deleteMutilDialog.findViewById(R.id.btn_sure);
             if (msg == null || cancle == null || sure == null) return;
-
             if (index == 1) {
-                  msg.setText("删除后不可恢复，是否删除该条目？");
+                  msg.setText(R.string.text_delete_unrecoverable);
             } else {
-                  msg.setText("删除后不可恢复，是否删除这" + index + "个条目？");
+                  msg.setText(getString(R.string.text_delete_unrecoverable_pice) + index + getString(R.string.text_delete_item));
             }
             cancle.setOnClickListener(v -> deleteMutilDialog.dismiss());
             sure.setOnClickListener(v -> {
                           for (int i = mAdapter.getVideoInfoBeanList().size(), j = 0; i > j; i--) {
                                 VideoInfoBean videoInfoBean = mAdapter.getVideoInfoBeanList().get(i - 1);
                                 if (videoInfoBean.isSelect()) {
-                                      boolean delete = FileUtils.deleteExternalVideoFile(mContext, videoInfoBean.getPath());
-                                      if (delete) {
-                                            mAdapter.remove(videoInfoBean);
-                                            index--;
-                                      }
+                                      mPresenter.deleteVideo(videoInfoBean);
+                                      index--;
                                 }
                           }
-                          index = 0;
-                          tvSelectNum.setText("已选择: " + 0);
-                          if (mAdapter.getVideoInfoBeanList().size() == 0) {
-                                deleteSelectLayout.setVisibility(View.GONE);
-                                swipeLayout.setEnabled(true);
-                                mPresenter.pullToRefresh();
-                          }
-                          mAdapter.notifyDataSetChanged();
+                          finishSelection();
                           deleteMutilDialog.dismiss();
                     }
             );
       }
 
+      /**
+       * 完成删除|参数复原逻辑
+       */
       private void finishSelection() {
             for (int i = mAdapter.getVideoInfoBeanList().size(), j = 0; i > j; i--) {
                   mAdapter.getVideoInfoBeanList().get(i - 1).setSelect(false);
                   mAdapter.notifyDataSetChanged();
             }
             index = 0;
+            longClickTimes = 0;
             isOnLongClick = false;
             mAdapter.isLongClick(false);
             deleteSelectLayout.setVisibility(View.GONE);
@@ -308,25 +342,6 @@ public class MainVideoFragment extends BaseFragment<MainVideoPresenter> implemen
             imgSelectAll.setImageResource(R.drawable.ic_select_all_nomal);
       }
 
-      @Override
-      public void onClick(View v) {
-            switch (v.getId()) {
-                  case R.id.ll_empty_view:
-                        mAdapter.isLongClick(false);
-                        mPresenter.pullToRefresh();
-                        break;
-                  case R.id.img_select_all:
-                        selectAllMain();
-                        break;
-                  case R.id.tv_finish:
-                        finishSelection();
-                        break;
-                  case R.id.tv_delete:
-                        deleteVideo();
-                        break;
-
-            }
-      }
 
       @Override
       public void onDestroy() {
