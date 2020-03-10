@@ -1,9 +1,7 @@
 package com.wmd.kroplayer.mvp.ui.view;
 
 import android.content.Context;
-import android.content.res.Configuration;
 import android.graphics.Matrix;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.Surface;
 import android.view.View;
@@ -12,15 +10,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
 
 import com.shuyu.gsyvideoplayer.utils.GSYVideoType;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 import com.shuyu.gsyvideoplayer.video.base.GSYBaseVideoPlayer;
 import com.shuyu.gsyvideoplayer.video.base.GSYVideoPlayer;
 import com.wmd.kroplayer.R;
-
-import tv.danmaku.ijk.media.player.ffmpeg.FFmpegApi;
 
 /**
  * Author:  Edwardwmd
@@ -88,15 +83,21 @@ public class KroGsyVideoPlayer extends StandardGSYVideoPlayer {
       }
 
       private void initView(Context context) {
-            mMoreScale = (TextView) findViewById(R.id.moreScale);
-            mChangeRotate = (ImageView) findViewById(R.id.change_rotate);
-            mChangeTransform = (ImageView) findViewById(R.id.change_transform);
-            mPlaySpeedTims = (TextView) findViewById(R.id.tv_play_speed_times);
-            mPlayTimesUp = (TextView) findViewById(R.id.tv_play_times_up);
-            mPlayTimesDown = (TextView) findViewById(R.id.tv_play_times_down);
-            mPlaytimesLayout = (ConstraintLayout) findViewById(R.id.play_times_layout);
+            mMoreScale = findViewById(R.id.moreScale);
+            mChangeRotate = findViewById(R.id.change_rotate);
+            mChangeTransform = findViewById(R.id.change_transform);
+            mPlaySpeedTims = findViewById(R.id.tv_play_speed_times);
+            mPlayTimesUp = findViewById(R.id.tv_play_times_up);
+            mPlayTimesDown = findViewById(R.id.tv_play_times_down);
+            mPlaytimesLayout = findViewById(R.id.play_times_layout);
 
-            setDialogProgressColor(ContextCompat.getColor(context,R.color.colorPrimary),ContextCompat.getColor(context,R.color.colorGary));
+
+
+            //设置音量progress颜色
+            setDialogVolumeProgressBar(getResources().getDrawable(R.drawable.progress_indeterminate_vertical));
+            //设置播放进度条dialog颜色
+            setDialogProgressBar(getResources().getDrawable(R.drawable.progress_indeterminate_horizontal));
+            onBrightnessSlide(0.001f);
             initplaySpeedTimes();
             mMoreScale.setOnClickListener(v -> {
                   if (!mHadPlay) {
@@ -279,13 +280,7 @@ public class KroGsyVideoPlayer extends StandardGSYVideoPlayer {
             proGsyVideoPlayer.mType = mType;
             proGsyVideoPlayer.mTransformSize = mTransformSize;
 
-            //sampleVideo.resolveTransform();
             proGsyVideoPlayer.resolveTypeUI();
-            //sampleVideo.resolveRotateUI();
-            //这个播放器的demo配置切换到全屏播放器
-            //这只是单纯的作为全屏播放显示，如果需要做大小屏幕切换，请记得在这里耶设置上视频全屏的需要的自定义配置
-            //比如已旋转角度之类的等等
-            //可参考super中的实现
             return proGsyVideoPlayer;
       }
 
@@ -304,6 +299,7 @@ public class KroGsyVideoPlayer extends StandardGSYVideoPlayer {
             resolveRotateUI();
             resolveTransform();
       }
+
 
       /**
        * 旋转逻辑
@@ -334,6 +330,7 @@ public class KroGsyVideoPlayer extends StandardGSYVideoPlayer {
                   resolveTypeUI();
             }
       }
+
 
       @Override
       protected void hideAllWidget() {
@@ -433,69 +430,13 @@ public class KroGsyVideoPlayer extends StandardGSYVideoPlayer {
             }
       }
 
-
       /**
        * 初始化倍速播放
        */
       private void initplaySpeedTimes() {
             setSpeed(1.0f);
-            mPlaySpeedTims.setText("1.0x");
+            mPlaySpeedTims.setText(R.string.text_play_speed_three);
       }
 
-      public TextView getmMoreScale() {
-            return mMoreScale;
-      }
-
-      public void setmMoreScale(TextView mMoreScale) {
-            this.mMoreScale = mMoreScale;
-      }
-
-      public ImageView getmChangeRotate() {
-            return mChangeRotate;
-      }
-
-      public void setmChangeRotate(ImageView mChangeRotate) {
-            this.mChangeRotate = mChangeRotate;
-      }
-
-      public ImageView getmChangeTransform() {
-            return mChangeTransform;
-      }
-
-      public void setmChangeTransform(ImageView mChangeTransform) {
-            this.mChangeTransform = mChangeTransform;
-      }
-
-      public TextView getmPlaySpeedTims() {
-            return mPlaySpeedTims;
-      }
-
-      public void setmPlaySpeedTims(TextView mPlaySpeedTims) {
-            this.mPlaySpeedTims = mPlaySpeedTims;
-      }
-
-      public TextView getmPlayTimesUp() {
-            return mPlayTimesUp;
-      }
-
-      public void setmPlayTimesUp(TextView mPlayTimesUp) {
-            this.mPlayTimesUp = mPlayTimesUp;
-      }
-
-      public TextView getmPlayTimesDown() {
-            return mPlayTimesDown;
-      }
-
-      public void setmPlayTimesDown(TextView mPlayTimesDown) {
-            this.mPlayTimesDown = mPlayTimesDown;
-      }
-
-      public ConstraintLayout getmPlaytimesLayout() {
-            return mPlaytimesLayout;
-      }
-
-      public void setmPlaytimesLayout(ConstraintLayout mPlaytimesLayout) {
-            this.mPlaytimesLayout = mPlaytimesLayout;
-      }
 
 }

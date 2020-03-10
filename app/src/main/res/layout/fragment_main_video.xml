@@ -37,9 +37,10 @@
         <TextView
             android:id="@+id/tv_select_num"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginLeft="15dp"
             android:textSize="16sp"
+            android:gravity="center_vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -47,9 +48,8 @@
         <ImageView
             android:id="@+id/img_select_all"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginRight="20dp"
-            android:padding="@dimen/dp_10"
             android:src="@drawable/ic_select_all_nomal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/tv_delete"
@@ -58,13 +58,12 @@
         <TextView
             android:id="@+id/tv_finish"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginEnd="20dp"
             android:textColor="@drawable/selector_delete_text_color"
             android:gravity="center_vertical"
             android:text="完成"
             android:textSize="16sp"
-            android:padding="@dimen/dp_10"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -72,12 +71,11 @@
         <TextView
             android:id="@+id/tv_delete"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginEnd="40dp"
             android:textColor="@drawable/selector_delete_text_color"
             android:gravity="center_vertical"
             android:text="删除"
-            android:padding="@dimen/dp_10"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/tv_finish"

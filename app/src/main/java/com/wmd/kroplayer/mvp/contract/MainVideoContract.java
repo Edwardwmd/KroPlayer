@@ -38,6 +38,8 @@ public interface MainVideoContract {
             void deleteLogic(boolean isDelete, int position);
 
             void deleteLogic(boolean isDelete, VideoInfoBean videoInfoBean);
+
+            void  doSomethingFormDisMiss();
       }
 
       interface Presenter {

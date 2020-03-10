@@ -109,8 +109,12 @@ public class MainVideoPresenter extends BasePresenter<MainVideoContract.Model, M
                                     deleteVideo(position);
                                     deleteDialog.dismiss();
                               });
-                              deleteAlertDialogBuilder.setNegativeButton(R.string.text_cancle, (deleteDialog, deleteWhich) -> deleteDialog.dismiss());
+                              deleteAlertDialogBuilder.setNegativeButton(R.string.text_cancle, (deleteDialog, deleteWhich) -> {
+
+                                    deleteDialog.dismiss();
+                              });
                               deleteAlertDialog = deleteAlertDialogBuilder.create();
+                              mView.doSomethingFormDisMiss();
                               deleteAlertDialog.show();
                               break;
                   }

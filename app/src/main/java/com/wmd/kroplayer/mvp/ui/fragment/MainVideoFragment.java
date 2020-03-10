@@ -155,6 +155,7 @@ public class MainVideoFragment extends BaseFragment<MainVideoPresenter> implemen
                         }
 
                   } else {
+
                         videoInfoBean.setSelect(false);
                         index--;
                         isSelectAll = false;
@@ -213,6 +214,12 @@ public class MainVideoFragment extends BaseFragment<MainVideoPresenter> implemen
       }
 
       @Override
+      public void onStop() {
+            super.onStop();
+            longClickTimes = 0;
+      }
+
+      @Override
       public void setLoadingEmptyView() {
             //加载空布局
             mAdapter.setEmptyView(notDataView);
@@ -234,17 +241,22 @@ public class MainVideoFragment extends BaseFragment<MainVideoPresenter> implemen
 
       @Override
       public void deleteLogic(boolean isDelete, int position) {
+            longClickTimes = 0;
             if (isDelete) {
                   mAdapter.remove(position);
                   mAdapter.notifyItemChanged(position);//局部更新Position
                   if (mAdapter.getVideoInfoBeanList().size() == 0) {
                         mPresenter.pullToRefresh();
                   }
-                  longClickTimes = 0;
                   AppUtils.showSnackbar((MainActivity) mContext, getString(R.string.text_file_delete_successful), false);
             } else {
                   AppUtils.showSnackbar((MainActivity) mContext, getString(R.string.text_file_delete_faile), false);
             }
+      }
+
+      @Override
+      public void doSomethingFormDisMiss() {
+            longClickTimes = 0;
       }
 
       @Override

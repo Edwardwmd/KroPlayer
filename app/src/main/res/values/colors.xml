@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#008577</color>
     <color name="colorAccent">#D81B60</color>
     <color name="colorWithe">#ffffff</color>
+    <color name="colorWithe_center">#fefefe</color>
+    <color name="colorWithe_end">#fdfdfd</color>
     <color name="colorGary">#35363A</color>
     <color name="colorD_Gary">#6E6E6E</color>
     <color name="colorblack">#000000</color>

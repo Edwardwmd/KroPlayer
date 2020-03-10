@@ -6,9 +6,6 @@ import androidx.multidex.MultiDexApplication;
 import com.bumptech.glide.Glide;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
-import com.shuyu.gsyvideoplayer.player.IjkPlayerManager;
-import com.shuyu.gsyvideoplayer.player.PlayerFactory;
-import com.shuyu.gsyvideoplayer.utils.GSYVideoType;
 import com.wmd.kroplayer.di.component.AppComponent;
 import com.wmd.kroplayer.di.component.DaggerAppComponent;
 
@@ -44,9 +41,6 @@ public class App extends MultiDexApplication {
             Logger.addLogAdapter(new AndroidLogAdapter());
             //打包dex
             MultiDex.install(this);
-
-            PlayerFactory.setPlayManager(IjkPlayerManager.class);//IjkPlay
-            GSYVideoType.setRenderType(GSYVideoType.TEXTURE);
 
             AutoSizeConfig
                     .getInstance()

@@ -16,6 +16,7 @@ import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 import com.wmd.kroplayer.R;
 import com.wmd.kroplayer.base.BaseKroGSYVideoActivity;
 import com.wmd.kroplayer.bean.VideoInfoBean;
+import com.wmd.kroplayer.bean.VideoPlayHistoryBean;
 import com.wmd.kroplayer.mvp.ui.view.KroGsyVideoPlayer;
 import com.wmd.kroplayer.utils.AppUtils;
 import com.wmd.kroplayer.utils.FileSizeUtil;
@@ -54,6 +55,9 @@ public class VideoPlayActivity extends BaseKroGSYVideoActivity<StandardGSYVideoP
       private ImageView thum;
       private VideoInfoBean videoInfoBean;
 
+      private VideoPlayHistoryBean videoPlayHistoryBean;
+
+
 
       @Override
       public StandardGSYVideoPlayer getGSYVideoPlayer() {
@@ -73,6 +77,7 @@ public class VideoPlayActivity extends BaseKroGSYVideoActivity<StandardGSYVideoP
                     .setLockLand(true)
                     .setShowFullAnimation(true)
                     .setNeedLockFull(true)
+                    .setDismissControlTime(4000)
                     .setSeekRatio(10.0f);
       }
 
@@ -110,6 +115,7 @@ public class VideoPlayActivity extends BaseKroGSYVideoActivity<StandardGSYVideoP
             tvVideoSize.setText(FileSizeUtil.FormetFileSize(videoInfoBean.getVideoSize()));
             tvCreateVideoDate.setText(TimeUtils.getFormatedDateTime("yyyy-MM-dd", videoInfoBean.getTime()));
             tvVideoFormality.setText(FileUtils.checkVideoType(videoInfoBean.getPath()));
+            videoPlayHistoryBean=new VideoPlayHistoryBean();
       }
 
       private void loadCover() {
@@ -139,6 +145,12 @@ public class VideoPlayActivity extends BaseKroGSYVideoActivity<StandardGSYVideoP
       }
 
       @Override
+      public void onClickStop(String url, Object... objects) {
+            super.onClickStop(url, objects);
+            //保存播放进度
+      }
+
+      @Override
       public void onConfigurationChanged(Configuration newConfig) {
             super.onConfigurationChanged(newConfig);
             orientationUtils.setEnable(false);
@@ -159,6 +171,7 @@ public class VideoPlayActivity extends BaseKroGSYVideoActivity<StandardGSYVideoP
             }
 
       }
+
 
       @Override
       public boolean isBaseOnWidth() {

@@ -10,7 +10,7 @@ import org.greenrobot.greendao.annotation.Generated;
  * Link:    https://github.com/Edwardwmd
  * Data:    2020/3/319
  * Version: 1.0.0
- * Desc:    VideoPlayHistoryBean 实体类
+ * Desc:    VideoPlayHistoryBean 实体类 播放视频历史列表
  */
 @Entity(nameInDb = "video_play_history")
 public class VideoPlayHistoryBean {

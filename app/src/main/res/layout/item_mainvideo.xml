@@ -16,7 +16,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_continar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
 
         <ImageView
             android:id="@+id/img_item_checkbox"
@@ -24,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="5dp"
-            android:visibility="gone"
+            android:visibility="visible"
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintLeft_toLeftOf="parent"
             card_view:layout_constraintTop_toTopOf="parent" />
@@ -33,8 +34,10 @@
             android:id="@+id/iv_video_thum"
             android:layout_width="100dp"
             android:layout_height="100dp"
+            android:layout_gravity="center_vertical"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="20dp"
+            android:scaleType="fitCenter"
             android:src="@drawable/ic_videoplaceholder_noload"
             android:transitionName="@string/text_transition_share_image"
             card_view:layout_constraintBottom_toBottomOf="parent"
@@ -45,7 +48,7 @@
 
         <TextView
             android:id="@+id/tv_videoname"
-            android:layout_width="200dp"
+            android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="12dp"
@@ -53,6 +56,7 @@
             android:marqueeRepeatLimit="marquee_forever"
             android:singleLine="true"
             android:text="@string/text_mainvideo_videoname"
+            android:textSize="14sp"
             card_view:layout_constraintLeft_toRightOf="@id/iv_video_thum"
             card_view:layout_constraintTop_toTopOf="parent" />
 
@@ -63,8 +67,11 @@
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
             android:text="@string/text_mainvideo_trafficsize"
+            android:textSize="10sp"
+            card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintLeft_toRightOf="@id/iv_video_thum"
-            card_view:layout_constraintTop_toBottomOf="@id/tv_videoname" />
+            card_view:layout_constraintTop_toBottomOf="@id/tv_videoname"
+            card_view:layout_constraintTop_toTopOf="parent" />
 
         <View
             android:id="@+id/vi_verticalline"
@@ -73,8 +80,10 @@
             android:layout_marginStart="5dp"
             android:layout_marginTop="20dp"
             android:background="@color/colorGary"
+            card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintLeft_toRightOf="@id/tv_videosize"
-            card_view:layout_constraintTop_toBottomOf="@id/tv_videoname" />
+            card_view:layout_constraintTop_toBottomOf="@id/tv_videoname"
+            card_view:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_videodate"
@@ -83,8 +92,11 @@
             android:layout_marginStart="5dp"
             android:layout_marginTop="20dp"
             android:text="@string/text_mainvide_videodate"
+            android:textSize="10sp"
+            card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintLeft_toRightOf="@id/vi_verticalline"
-            card_view:layout_constraintTop_toBottomOf="@id/tv_videoname" />
+            card_view:layout_constraintTop_toBottomOf="@id/tv_videoname"
+            card_view:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_durationtitle"
@@ -93,6 +105,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="8dp"
             android:text="@string/text_mainvideo_videodurationtips"
+            android:textSize="10sp"
             card_view:layout_constraintLeft_toRightOf="@id/iv_video_thum"
             card_view:layout_constraintTop_toBottomOf="@id/tv_videosize" />
 
@@ -103,6 +116,7 @@
             android:layout_marginStart="3dp"
             android:layout_marginTop="8dp"
             android:text="@string/text_mainvideo_videoduration"
+            android:textSize="10sp"
             card_view:layout_constraintLeft_toRightOf="@id/tv_durationtitle"
             card_view:layout_constraintTop_toBottomOf="@id/tv_videodate" />
     </androidx.constraintlayout.widget.ConstraintLayout>
